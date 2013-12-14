@@ -64,9 +64,6 @@ class World(object):
         return self.colliding_object(object_, projected_points)
 
     def move_in_direction(self, object_, direction, distance=1):
-        if distance <= 0 or direction == DIRECTIONS['still']:
-            return
-
         x, y = MOVEMENTS[direction]
             
         for _ in xrange(distance):
@@ -89,7 +86,7 @@ class World(object):
             object_.tick(self)
             if object_.health <= 0:
                 self.remove(object_)
-                
+
 
         try:
             self.player.tick(self)

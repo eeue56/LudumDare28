@@ -73,8 +73,9 @@ if __name__ == '__main__':
 
             level = Level(COLOURS['grey'], {}, 100, 100)
 
-            level.add_object(Wall(100, 100, 5))
-            level.add_object(Bomb(20, 20))
+            for x in (DIRECTIONS['up'], DIRECTIONS['right'], DIRECTIONS['left'], DIRECTIONS['down']):
+                level.add_object(Wall(100, 100, 5, facing=x))
+            level.add_object(Bomb(20, 20, facing=DIRECTIONS['still']))
 
             level_controller = LevelController(level, {})
 

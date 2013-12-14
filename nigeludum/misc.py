@@ -38,6 +38,9 @@ MOVEMENTS = {
     DIRECTIONS['down'] + DIRECTIONS['right'] : (1, -1)
 }
 
+def opposite_direction(direction):
+    return -direction
+
 def random_color():
     return tuple(y / 255 for y in (randint(0, 255), randint(0, 255), randint(0, 255)))
 

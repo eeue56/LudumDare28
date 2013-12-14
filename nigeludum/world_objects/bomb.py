@@ -2,6 +2,7 @@ from __future__ import division
 
 from nigeludum.world_objects import WorldObject
 from nigeludum.misc import *
+from nigeludum.world_exceptions import *
 
 class Bomb(WorldObject):
     def __init__(self, x, y, color=COLOURS['grey'], facing=DIRECTIONS['up'], health=3, scale=1):
@@ -42,7 +43,19 @@ class Bomb(WorldObject):
         return populated
 
     def tick(self, world):
-        world._move_object(self, 0,0)
         self.scale += 0.1
+
+        try:
+            world.move_in_direction(self, self.facing)
+        except CollisionException as e:
+            while True:
+                self.scale -= 0.2
+                try:
+                    self.facing = opposite_direction(e.other.facing)
+                    world.move_in_direction(self, self.facing)
+                    break
+                except CollisionException:
+                    pass
+
            
     
