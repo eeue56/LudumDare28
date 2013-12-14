@@ -14,7 +14,7 @@ from random import choice, randint
 from nigeludum.world import World
 from nigeludum.misc import *
 
-from nigeludum.world_objects import Player
+from nigeludum.world_objects import Player, Wall
 from nigeludum.levels import Level, LevelController
 
 
@@ -72,6 +72,8 @@ if __name__ == '__main__':
             self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
 
             level = Level(COLOURS['grey'], {}, 100, 100)
+
+            level.add_object(Wall(100, 100, 5))
             level_controller = LevelController(level, {})
 
             self.world = World(self.player, level_controller)
