@@ -33,11 +33,11 @@ class Player(WorldObject):
         # connector
 
         middle_x = x + int(scaled_x / 2)
-        populate(middle_x, 1)
+        populate(middle_x, y + 1)
 
         # arms
 
         for i in xrange(x, x + scaled_x):
-            populate(i, 2)
+            populate(i, y + 2)
 
         return populated
