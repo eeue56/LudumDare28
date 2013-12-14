@@ -41,3 +41,43 @@ def random_color():
 
 def draw_square(x, y, x_size=1, y_size=1):
     gl.glRectf(x, y, x + x_size, y + y_size)
+
+def into_sections(blocklist):
+
+    into_dict = OrderedDict()
+
+    for block in blocklist:
+        x, y = block
+        if y not in into_dict:
+            into_dict[y] = OrderedDict()
+        into_dict[y][x] = True
+
+    sections = []
+
+    for y in into_dict:
+        last_x = -1
+        width = 1
+        start_x = None
+
+        for x in into_dict[y]:
+            if x == last_x + 1:
+                if start_x is None:
+                    start_x = x
+                else:
+                    width += 1
+            else:
+                if start_x is None:
+                    start_x = x
+
+                sections.append((start_x, y, width, 1))
+                
+                start_x = None
+                width = 1
+            last_x = x
+            
+        if start_x is None:
+            start_x = x
+
+        sections.append((start_x, y, width, 1))
+
+    return sections
