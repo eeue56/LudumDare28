@@ -13,8 +13,8 @@ from random import choice, randint
 
 from nigeludum.world import World
 from nigeludum.misc import *
-## TODO: refactor with __init__
-from nigeludum.world_objects.player import Player
+
+from nigeludum.world_objects import Player
 
 
 class GLPlotWidget(QGLWidget):

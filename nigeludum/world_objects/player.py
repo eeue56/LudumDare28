@@ -1,7 +1,6 @@
 from __future__ import division
 
-## TODO: refactor with __init__.py
-from nigeludum.world_objects.world_object import WorldObject
+from nigeludum.world_objects import WorldObject
 
 class Player(WorldObject):
     def __init__(self, x, y, color, facing, scale=1):
