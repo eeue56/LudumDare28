@@ -7,6 +7,7 @@ setup(name='nigeludum',
       description='Ludum Dare game',
       author='Enalicho',
       author_email='enalicho@gmail.com',
-      packages=['nigeludum'],
+      packages=['nigeludum', 'nigeludum/world_objects'],
+
       requires=['PyQt', 'OpenGL'],
      )

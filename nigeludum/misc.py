@@ -4,6 +4,8 @@ import OpenGL.GL as gl
 
 from random import randint
 
+from collections import OrderedDict
+
 COLOURS = { 
     'black' : (0, 0, 0),
     'other-grey' : (0.25, 0.25, 0.25),
@@ -74,7 +76,7 @@ def into_sections(blocklist):
                 start_x = None
                 width = 1
             last_x = x
-            
+
         if start_x is None:
             start_x = x
 

@@ -13,6 +13,8 @@ from random import choice, randint
 
 from nigeludum.world import World
 from nigeludum.misc import *
+## TODO: refactor with __init__
+from nigeludum.world_objects.player import Player
 
 
 class GLPlotWidget(QGLWidget):
@@ -39,6 +41,8 @@ class GLPlotWidget(QGLWidget):
         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
         
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
+
+        self.world.draw()
         
     def resizeGL(self, width, height):
         """Called upon window resizing: reinitialize the viewport.
@@ -64,7 +68,8 @@ if __name__ == '__main__':
         def __init__(self):
             super(TestWindow, self).__init__()
             # initialize the GL widget
-            self.world = World(100, 100)
+            self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
+            self.world = World(self.player, 100, 100)
 
             self.widget = GLPlotWidget(100, 100, self.world)
             self.keys = set()
