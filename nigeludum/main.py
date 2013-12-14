@@ -84,10 +84,14 @@ if __name__ == '__main__':
             self.button_timer = QtCore.QTimer()
             QtCore.QObject.connect(self.button_timer, QtCore.SIGNAL("timeout()"), self.check)
 
+            self.tick_timer = QtCore.QTimer()
+            QtCore.QObject.connect(self.tick_timer, QtCore.SIGNAL("timeout()"), self.world.tick)
+
             QtCore.QMetaObject.connectSlotsByName(self)
             
             self.paint_timer.start(30)
             self.button_timer.start(25)
+            self.tick_timer.start(25)
 
             self.resize(600, 400)
 
