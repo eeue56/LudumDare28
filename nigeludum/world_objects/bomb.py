@@ -42,7 +42,7 @@ class Bomb(WorldObject):
         return populated
 
     def tick(self, world):
-        self.health -= 0.05
+        world._move_object(self, 0,0)
         self.scale += 0.1
            
     
