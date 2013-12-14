@@ -26,15 +26,17 @@ class World(object):
     def object_array(self):
         return self.level_controller.current_level.object_array
 
+    @property
+    def objects(self):
+        return self.level_controller.current_level.objects
+
 
     def _move(self, old, new, object_):
 
-        level = self.level_controller.current_level
-
         for (x, y, _) in old:
-            level.object_array[y][x] = None
+            self.object_array[y][x] = None
         for (new_x, new_y, _) in new:
-            level.object_array[new_y][new_x] = object_
+            self.object_array[new_y][new_x] = object_
 
     def _move_object(self, object_, x=0, y=0):
         self._move(object_.populated_squares, 
@@ -44,14 +46,13 @@ class World(object):
         object_.y += y
 
     def colliding_object(self, old_object, populated_next):
-        level = self.level_controller.current_level
 
         for (x, y, _) in populated_next:
             if y < 0 or y >= self.height or x < 0 or x >= self.width:
                 raise OutOfWorldException
 
-            if level.object_array[y][x] is not None and level.object_array[y][x] != old_object:
-                return level.object_array[y][x]
+            if self.object_array[y][x] is not None and self.object_array[y][x] != old_object:
+                return self.object_array[y][x]
         return None
 
     def object_going_to_collide(self, object_, x=0, y=0):
@@ -74,13 +75,13 @@ class World(object):
         self.level_controller.next_level(self.player.facing)
 
     def draw(self):
-        for object_ in self.level_controller.current_level.objects:
+        for object_ in self.objects:
             object_.draw()
 
         self.player.draw()
 
     def tick(self):
-        for object_ in self.level_controller.current_level.objects:
+        for object_ in self.objects:
             object_.tick(self)
 
         try:
