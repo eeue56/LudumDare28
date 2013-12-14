@@ -7,7 +7,8 @@ from nigeludum.misc import into_sections, draw_square
 
 class WorldObject(object):
 
-    def __init__(self, x, y, color, facing, scale=1, damagable=True, moveable=True):
+    def __init__(self, x, y, color, facing, health=3, scale=1, damagable=True, moveable=True):
+        self.health = health
         self.x = x
         self.y = y
         self.color = color
@@ -37,7 +38,7 @@ class WorldObject(object):
             r, g, b = color
             gl.glColor3f(r, g, b)
             draw_square(x, y, width, height)
-            
+
         gl.glPopMatrix() 
 
     def take_damage(self, other):

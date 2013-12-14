@@ -15,6 +15,7 @@ from nigeludum.world import World
 from nigeludum.misc import *
 
 from nigeludum.world_objects import Player
+from nigeludum.levels import Level, LevelController
 
 
 class GLPlotWidget(QGLWidget):
@@ -69,7 +70,11 @@ if __name__ == '__main__':
             super(TestWindow, self).__init__()
             # initialize the GL widget
             self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
-            self.world = World(self.player, 100, 100)
+
+            level = Level(COLOURS['grey'], {}, 100, 100)
+            level_controller = LevelController(level, {})
+
+            self.world = World(self.player, level_controller)
 
             self.widget = GLPlotWidget(100, 100, self.world)
             self.keys = set()

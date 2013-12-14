@@ -4,8 +4,8 @@ from nigeludum.world_objects import WorldObject
 from nigeludum.misc import *
 
 class Player(WorldObject):
-    def __init__(self, x, y, color, facing, scale=1):
-        WorldObject.__init__(self, x, y, color, facing, scale)
+    def __init__(self, x, y, color, facing, health=3, scale=1):
+        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale)
 
     def populated_at(self, x, y):
         """ returns a list of tuples containing the coordinates of populated 
@@ -45,3 +45,4 @@ class Player(WorldObject):
     def tick(self, world):
         world.move_in_direction(self, self.facing, 1)
            
+    
