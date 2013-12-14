@@ -105,8 +105,20 @@ if __name__ == '__main__':
                 pass
 
         def check(self):
-            pass
+            face_movement = DIRECTIONS['still']
 
+            for key in self.keys:  
+
+                if key == QtCore.Qt.Key_A:
+                    face_movement += DIRECTIONS['left']
+                elif key == QtCore.Qt.Key_D:
+                    face_movement += DIRECTIONS['right']
+                elif key == QtCore.Qt.Key_W:
+                    face_movement += DIRECTIONS['up']
+                elif key == QtCore.Qt.Key_S:
+                    face_movement += DIRECTIONS['down']
+
+            self.world.player.facing = face_movement
  
     # create the QT App and window
     app = QtGui.QApplication(sys.argv)

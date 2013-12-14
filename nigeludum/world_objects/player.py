@@ -1,6 +1,7 @@
 from __future__ import division
 
 from nigeludum.world_objects import WorldObject
+from nigeludum.misc import *
 
 class Player(WorldObject):
     def __init__(self, x, y, color, facing, scale=1):
@@ -40,3 +41,7 @@ class Player(WorldObject):
             populate(i, y + 2, self.color)
 
         return populated
+
+    def tick(self, world):
+        world.move_in_direction(self, self.facing, 1)
+           
