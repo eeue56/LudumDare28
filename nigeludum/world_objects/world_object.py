@@ -32,12 +32,12 @@ class WorldObject(object):
 
         gl.glPushMatrix()
 
-        r, g, b = self.color
-        gl.glColor3f(r, g, b)
-
         for section in self._section_cache[(self.x, self.y, self.facing)]:
-            (x, y, width, height) = section
+            (x, y, width, height, color) = section
+            r, g, b = color
+            gl.glColor3f(r, g, b)
             draw_square(x, y, width, height)
+            
         gl.glPopMatrix() 
 
     def take_damage(self, other):
@@ -47,7 +47,7 @@ class WorldObject(object):
         """ returns a list of tuples containing the coordinates of populated 
             squares, should the square be at this point
         """
-        return [(x, y)]
+        return [(x, y, self.color)]
 
     @property
     def populated_squares(self):

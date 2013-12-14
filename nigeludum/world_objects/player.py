@@ -18,7 +18,7 @@ class Player(WorldObject):
         #-> ###
         #  01234
         populated = []
-        populate = lambda x, y: populated.append((x, y))
+        populate = lambda x, y, color: populated.append((x, y, color))
 
         scaled_x = 5 * self.scale
         scaled_y = 4 * self.scale
@@ -27,17 +27,17 @@ class Player(WorldObject):
 
         # bottom and top lines
         for i in xrange(x + 1, x + scaled_x - 1):
-            populate(i, y)
-            populate(i, y + scaled_y - 1)
+            populate(i, y, self.color)
+            populate(i, y + scaled_y - 1, self.color)
 
         # connector
 
         middle_x = x + int(scaled_x / 2)
-        populate(middle_x, y + 1)
+        populate(middle_x, y + 1, (1, 0, 0))
 
         # arms
 
         for i in xrange(x, x + scaled_x):
-            populate(i, y + 2)
+            populate(i, y + 2, self.color)
 
         return populated
