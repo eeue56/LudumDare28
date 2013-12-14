@@ -11,8 +11,8 @@ import OpenGL.arrays.vbo as glvbo
 
 from random import choice, randint
 
-from world import World
-from misc import *
+from nigeludum.world import World
+from nigeludum.misc import *
 
 
 class GLPlotWidget(QGLWidget):

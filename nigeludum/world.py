@@ -1,10 +1,10 @@
 from __future__ import division
 
-from misc import *
 from collections import defaultdict
 from copy import deepcopy as copy
 
-from world_exceptions import *
+from nigeludum.world_exceptions import *
+from nigeludum.misc import *
 
 class World(object):
 
