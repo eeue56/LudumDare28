@@ -95,6 +95,4 @@ def into_sections(blocklist):
 
         sections.append((start_x, y, width, 1, last_color))
 
-    print sections
-
     return sections

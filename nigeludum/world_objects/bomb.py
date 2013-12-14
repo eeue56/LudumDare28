@@ -21,8 +21,8 @@ class Bomb(WorldObject):
         populated = []
         populate = lambda i, j, color: populated.append((i + x, j + y, color))
 
-        scaled_x = 3 * self.scale
-        scaled_y = 3 * self.scale
+        scaled_x = int(3 * self.scale)
+        scaled_y = int(3 * self.scale)
 
 
         for i in xrange(1, scaled_x - 1):
@@ -42,6 +42,7 @@ class Bomb(WorldObject):
         return populated
 
     def tick(self, world):
-        pass
+        self.health -= 0.05
+        self.scale += 0.1
            
     

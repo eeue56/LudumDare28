@@ -44,12 +44,12 @@ class WorldObject(object):
             by this object - uses clever caching and sections to improve 
             draw speed """
 
-        if (self.x, self.y, self.facing) not in self._section_cache:
-            self._section_cache[(self.x, self.y, self.facing)] = into_sections(self.populated_squares)
+        if (self.x, self.y, self.facing, self.scale) not in self._section_cache:
+            self._section_cache[(self.x, self.y, self.facing, self.scale)] = into_sections(self.populated_squares)
 
         gl.glPushMatrix()
 
-        for section in self._section_cache[(self.x, self.y, self.facing)]:
+        for section in self._section_cache[(self.x, self.y, self.facing, self.scale)]:
             (x, y, width, height, color) = section
             r, g, b = color
             gl.glColor3f(r, g, b)
@@ -70,9 +70,9 @@ class WorldObject(object):
     def populated_squares(self):
         """ returns the populated squares for the current object 
             clever caching method """
-        if (self.x, self.y, self.facing) not in self._square_cache:
-            self._square_cache[(self.x, self.y, self.facing)] = self.populated_at(self.x, self.y)
-        return self._square_cache[(self.x, self.y, self.facing)]
+        if (self.x, self.y, self.facing, self.scale) not in self._square_cache:
+            self._square_cache[(self.x, self.y, self.facing, self.scale)] = self.populated_at(self.x, self.y)
+        return self._square_cache[(self.x, self.y, self.facing, self.scale)]
 
     def closest_point(self, x, y):
         """ returns the coordinates which are part of this object and

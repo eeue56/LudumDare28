@@ -30,6 +30,10 @@ class World(object):
     def objects(self):
         return self.level_controller.current_level.objects
 
+    def remove(self, object_):
+        for (x, y, _) in object_.populated_squares:
+            self.object_array[y][x] = None
+        self.objects.remove(object_)
 
     def _move(self, old, new, object_):
 
@@ -83,6 +87,9 @@ class World(object):
     def tick(self):
         for object_ in self.objects:
             object_.tick(self)
+            if object_.health <= 0:
+                self.remove(object_)
+                
 
         try:
             self.player.tick(self)
