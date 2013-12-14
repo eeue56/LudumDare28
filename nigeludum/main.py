@@ -10,15 +10,18 @@ import OpenGL.GL as gl
 import OpenGL.arrays.vbo as glvbo
 
 from random import choice, randint
+
+from world import World
 from misc import *
 
 
 class GLPlotWidget(QGLWidget):
 
-    def __init__(self, width, height, *args):
+    def __init__(self, width, height, world, *args):
         QGLWidget.__init__(self, *args)
         self.width = width
         self.height = height
+        self.world = world
  
     def initializeGL(self):
         """Initialize OpenGL, VBOs, upload data on the GPU, etc.
@@ -61,8 +64,9 @@ if __name__ == '__main__':
         def __init__(self):
             super(TestWindow, self).__init__()
             # initialize the GL widget
+            self.world = World(100, 100)
 
-            self.widget = GLPlotWidget(100, 100)
+            self.widget = GLPlotWidget(100, 100, self.world)
             self.keys = set()
 
             self.widget.setGeometry(0, 0, self.widget.width, self.widget.height)
