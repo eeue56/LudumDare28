@@ -31,13 +31,13 @@ class Bomb(WorldObject):
 
         for i in xrange(scaled_x):
             populate(i, 0, self.color)
-            populate(i, scaled_y, self.color)
+            populate(i, scaled_y - 1, self.color)
 
-        """
+        
         for j in xrange(scaled_y):
             populate(0, j, self.color)
-            populate(scaled_x, j, self.color)
-        """
+            populate(scaled_x - 1, j, self.color)
+        
 
         return populated
 

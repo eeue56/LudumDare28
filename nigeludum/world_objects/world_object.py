@@ -23,6 +23,22 @@ class WorldObject(object):
     def tick(self, world):
         pass
 
+    def _debug_draw(self):
+        if (self.x, self.y, self.facing) not in self._section_cache:
+            self._section_cache[(self.x, self.y, self.facing)] = into_sections(self.populated_squares)
+
+        gl.glPushMatrix()
+
+        for square in self.populated_squares:
+            x, y, color = square
+            r, g, b =color
+
+            gl.glColor3f(r, g, b)
+            draw_square(x, y)
+
+        gl.glPopMatrix() 
+
+
     def draw(self):
         """ draw method used to draw all the populated squares 
             by this object - uses clever caching and sections to improve 
