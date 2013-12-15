@@ -1,0 +1,49 @@
+{
+    "0":{
+        "color":{
+            "r" : 0.2,
+            "g" : 0,
+            "b" : 0
+        },
+        "walls":{
+            "up" : {
+                "gaps":{
+                    "start":20,
+                    "end" : 40
+                },
+                "leads_to" : 1,
+                "width" : 2
+            },
+            "down" : {
+                "gaps":{
+                    "start":20,
+                    "end" : 40
+                },
+                "leads_to" : 1,
+                "width" : 2
+            },
+            "left" : {
+                "gaps":{
+                    "start":20,
+                    "end" : 40
+                },
+                "leads_to" : 1,
+                "width" : 2
+            },
+            "right" : {
+                "gaps":{
+                    "start":20,
+                    "end" : 40
+                },
+                "leads_to" : 1,
+                "width" : 2
+            }
+        },
+        "fixed":{
+            "Bomb":{
+                "x": 20,
+                "y": 20
+            }
+        }
+    }
+}

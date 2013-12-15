@@ -15,7 +15,7 @@ from nigeludum.world import World
 from nigeludum.misc import *
 
 from nigeludum.world_objects import Player, Wall, Bomb, OldGrumper
-from nigeludum.levels import Level, LevelController
+from nigeludum.levels import Level, LevelController, generate_objects
 
 
 class GLPlotWidget(QGLWidget):
@@ -39,6 +39,8 @@ class GLPlotWidget(QGLWidget):
         """Paint the scene.
         """
         # clear the buffer
+        r, g, b = self.world.floor_color
+        gl.glClearColor(r, g, b, 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
         
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
@@ -71,8 +73,11 @@ if __name__ == '__main__':
             # initialize the GL widget
             self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
 
-            level1 = Level(COLOURS['black'], {DIRECTIONS['left'] : 0}, 100, 100)
-            level = Level(COLOURS['grey'], {DIRECTIONS['right'] : 1}, 100, 100)
+            with open('/home/noah/Programming/Python/LudumDare28/nigeludum/level_data.json') as f:
+                levels = generate_objects(f.read(), 100, 100)
+
+            """level1 = Level(COLOURS['black'], {DIRECTIONS['left'] : 0}, 100, 100)
+            level = Level(COLOURS['black'], {DIRECTIONS['right'] : 1}, 100, 100)
 
             for x in (DIRECTIONS['up'], DIRECTIONS['right'], DIRECTIONS['left'], DIRECTIONS['down']):
                 level.add_object(Wall(100, 100, 5, gaps=range(20, 40), facing=x))
@@ -86,8 +91,9 @@ if __name__ == '__main__':
             }
 
             level.add_object(OldGrumper(70, 70, color=COLOURS['white'],facing=DIRECTIONS['still']))
+            """
 
-            level_controller = LevelController(level, levels)
+            level_controller = LevelController(levels[0], levels)
 
             self.world = World(self.player, level_controller)
 

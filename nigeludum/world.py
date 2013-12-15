@@ -18,6 +18,10 @@ class World(object):
         self.level_controller.current_level.add_object(*args, **kwargs)
 
     @property
+    def floor_color(self):
+        return self.level_controller.current_level.color
+
+    @property
     def height(self):
         return self.level_controller.current_level.height
 
