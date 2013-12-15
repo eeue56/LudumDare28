@@ -14,7 +14,7 @@ from random import choice, randint
 from nigeludum.world import World
 from nigeludum.misc import *
 
-from nigeludum.world_objects import Player, Wall, Bomb
+from nigeludum.world_objects import Player, Wall, Bomb, OldGrumper
 from nigeludum.levels import Level, LevelController
 
 
@@ -71,13 +71,23 @@ if __name__ == '__main__':
             # initialize the GL widget
             self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
 
-            level = Level(COLOURS['grey'], {}, 100, 100)
+            level1 = Level(COLOURS['black'], {DIRECTIONS['left'] : 0}, 100, 100)
+            level = Level(COLOURS['grey'], {DIRECTIONS['right'] : 1}, 100, 100)
 
             for x in (DIRECTIONS['up'], DIRECTIONS['right'], DIRECTIONS['left'], DIRECTIONS['down']):
-                level.add_object(Wall(100, 100, 5, facing=x))
+                level.add_object(Wall(100, 100, 5, gaps=range(20, 40), facing=x))
+                level1.add_object(Wall(100, 100, 2, gaps=range(40, 60), facing=x))
             level.add_object(Bomb(20, 20, facing=DIRECTIONS['still']))
 
-            level_controller = LevelController(level, {})
+
+            levels = {
+                0:level,
+                1:level1
+            }
+
+            level.add_object(OldGrumper(70, 70, color=COLOURS['white'],facing=DIRECTIONS['still']))
+
+            level_controller = LevelController(level, levels)
 
             self.world = World(self.player, level_controller)
 
@@ -97,15 +107,26 @@ if __name__ == '__main__':
             self.tick_timer = QtCore.QTimer()
             QtCore.QObject.connect(self.tick_timer, QtCore.SIGNAL("timeout()"), self.world.tick)
 
+            self.clean_timer = QtCore.QTimer()
+            QtCore.QObject.connect(self.clean_timer, QtCore.SIGNAL("timeout()"), self.world.clean_up)
+
+
             QtCore.QMetaObject.connectSlotsByName(self)
             
             self.paint_timer.start(30)
             self.button_timer.start(25)
             self.tick_timer.start(25)
+            self.clean_timer.start(200)
+
 
             self.resize(600, 400)
 
+            self._need_to_place = False
+
         def keyPressEvent(self, event):
+            if event.key() == QtCore.Qt.Key_Space:
+                self._need_to_place = True
+
             self.keys.add(event.key())
 
         def keyReleaseEvent(self, event):
@@ -127,6 +148,10 @@ if __name__ == '__main__':
                     face_movement += DIRECTIONS['up']
                 elif key == QtCore.Qt.Key_S:
                     face_movement += DIRECTIONS['down']
+
+                if self._need_to_place and key == QtCore.Qt.Key_Space:
+                    self._need_to_place = False
+                    self.world.player.place_bomb(self.world)
 
             self.world.player.facing = face_movement
  

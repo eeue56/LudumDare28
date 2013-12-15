@@ -26,7 +26,6 @@ class Bomb(WorldObject):
         #->###   0
         #
         #  012
-        self.scale = 2
         populated = []
         populate = lambda i, j, color: populated.append((i + x, j + y, color))
 
@@ -62,14 +61,21 @@ class Bomb(WorldObject):
         try:
             world.move_in_direction(self, self.facing)
         except CollisionException as e:
-            while True:
-                self.scale -= 0.2
-                try:
-                    self.facing = opposite_direction(e.other.facing)
-                    world.move_in_direction(self, self.facing)
-                    break
-                except CollisionException:
-                    pass
+
+            if self.health < 1:
+                e.other.take_damage(3 - self.health, self)
+
+            self.scale -= 0.2
+            try:
+                self.facing = opposite_direction(self.facing)
+                world.move_in_direction(self, self.facing)
+            except CollisionException:
+                self.scale -= 0.5
+                self.max_scale = self.scale
+                
+        except OutOfWorldException:
+            self.max_scale = self.scale
+            self.scale -= 0.5
 
            
     

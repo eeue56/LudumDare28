@@ -14,6 +14,9 @@ class World(object):
         self.level_controller = level_controller
         self.level_controller.start()
 
+    def add_object(self, *args, **kwargs):
+        self.level_controller.current_level.add_object(*args, **kwargs)
+
     @property
     def height(self):
         return self.level_controller.current_level.height
@@ -75,6 +78,15 @@ class World(object):
     def next_level(self):
         self.level_controller.next_level(self.player.facing)
 
+    def clean_up(self):
+        copy = [[None for x in xrange(self.width)] for y in xrange(self.height)]
+
+        for object_ in self.objects:
+            for (x, y, _) in object_.populated_squares:
+                copy[y][x] = object_
+
+        self.level_controller.current_level.object_array = copy
+
     def draw(self):
         for object_ in self.objects:
             object_.draw()
@@ -84,12 +96,22 @@ class World(object):
     def tick(self):
         for object_ in self.objects:
             object_.tick(self)
-            if object_.health <= 0:
-                self.remove(object_)
+            
 
         try:
             self.player.tick(self)
         except OutOfWorldException:
+            print 'here, moving to next level!'
+            x, y = MOVEMENTS[opposite_direction(self.player.facing)]
+            self.player.x += 5 * x
+            self.player.y += 5 * y
             self.next_level()
+            self.clean_up()
 
+        for object_ in self.objects:
+            if object_.health <= 0:
+                self.remove(object_)
+
+        if self.player.health <= 0:
+            print 'player dead!'
 
