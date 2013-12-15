@@ -74,24 +74,7 @@ if __name__ == '__main__':
             self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
 
             with open('/home/noah/Programming/Python/LudumDare28/nigeludum/level_data.json') as f:
-                levels = generate_objects(f.read(), 100, 100)
-
-            """level1 = Level(COLOURS['black'], {DIRECTIONS['left'] : 0}, 100, 100)
-            level = Level(COLOURS['black'], {DIRECTIONS['right'] : 1}, 100, 100)
-
-            for x in (DIRECTIONS['up'], DIRECTIONS['right'], DIRECTIONS['left'], DIRECTIONS['down']):
-                level.add_object(Wall(100, 100, 5, gaps=range(20, 40), facing=x))
-                level1.add_object(Wall(100, 100, 2, gaps=range(40, 60), facing=x))
-            level.add_object(Bomb(20, 20, facing=DIRECTIONS['still']))
-
-
-            levels = {
-                0:level,
-                1:level1
-            }
-
-            level.add_object(OldGrumper(70, 70, color=COLOURS['white'],facing=DIRECTIONS['still']))
-            """
+                levels = generate_objects(f.read())
 
             level_controller = LevelController(levels[0], levels)
 
