@@ -27,12 +27,9 @@ def generate_objects(file_data):
 
             walls.append(Wall(world_width, world_height, width=width, facing=direction, gaps=gaps))
 
-        color = level_data['color']
-        r = color['r']
-        g = color['g']
-        b = color['b']
+        color = _color_dict_to_tuple(level_data['color'])
 
-        level = Level((r, g, b), wall_dict, world_width, world_height)
+        level = Level(color, wall_dict, world_width, world_height)
         level.add_objects(walls)
 
         level_dict[int(level_id)] = level
