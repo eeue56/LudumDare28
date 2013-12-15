@@ -87,7 +87,6 @@ class World(object):
             if object_.health <= 0:
                 self.remove(object_)
 
-
         try:
             self.player.tick(self)
         except OutOfWorldException:

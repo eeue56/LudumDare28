@@ -55,9 +55,20 @@ def into_ordered_dict(blocklist):
         if y not in into_dict:
             into_dict[y] = OrderedDict()
         into_dict[y][x] = color
-    return into_dict
+
+    out = OrderedDict()
+
+    for y in sorted(into_dict):
+        out[y] = OrderedDict()
+        for x in sorted(into_dict[y]):
+            out[y][x] = into_dict[y][x]
+    return out
 
 def into_sections(blocklist):
+    # TODO:
+    # goes wrong when
+    # x = 0 
+    # y > 0, y < max_y
     into_dict = into_ordered_dict(blocklist)
 
     sections = []
@@ -71,6 +82,15 @@ def into_sections(blocklist):
         for x, color in into_dict[y].iteritems():
             if last_color is None:
                 last_color = color
+
+            if y in range(21, 23) and x == 20:
+                print 'starting debug'
+                print 'y', y
+                print 'x', x
+                print 'color', color
+                print 'last', last_color
+                print 'last x', last_x
+                print 'ending'
 
             if x == last_x + 1 and color == last_color:
                 if start_x is None:

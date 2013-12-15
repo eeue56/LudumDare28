@@ -5,9 +5,16 @@ from nigeludum.misc import *
 from nigeludum.world_exceptions import *
 
 class Bomb(WorldObject):
-    def __init__(self, x, y, color=COLOURS['grey'], facing=DIRECTIONS['up'], health=3, scale=1):
+    def __init__(self, x, y, 
+        color=COLOURS['grey'], 
+        facing=DIRECTIONS['up'], 
+        health=3, 
+        scale=1,
+        max_scale=3):
+
         WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale)
         self.center_color = COLOURS['red']
+        self.max_scale = max_scale
 
     def populated_at(self, x, y):
         """ returns a list of tuples containing the coordinates of populated 
@@ -19,6 +26,7 @@ class Bomb(WorldObject):
         #->###   0
         #
         #  012
+        self.scale = 2
         populated = []
         populate = lambda i, j, color: populated.append((i + x, j + y, color))
 
@@ -36,14 +44,20 @@ class Bomb(WorldObject):
 
         
         for j in xrange(scaled_y):
-            populate(0, j, self.color)
+            populate(0, j, (0, 1, 0))
             populate(scaled_x - 1, j, self.color)
         
 
         return populated
 
     def tick(self, world):
-        self.scale += 0.1
+        if self.scale < self.max_scale:
+            self.scale += 0.1
+        else:
+            self.health -= 0.25
+
+            if self.health < 1:
+                self.scale += 1
 
         try:
             world.move_in_direction(self, self.facing)
