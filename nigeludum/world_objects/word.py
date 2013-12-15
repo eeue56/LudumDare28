@@ -617,6 +617,32 @@ class Word(WorldObject):
             populate(i, i)
 
         return populated
+
+    def populate_m(self, x, y):
+
+        #   # #
+        #  # # #  
+        #  # # #
+        #  # # #     
+        #->#   #   
+
+        populated = []
+        populate = lambda i, j: populated.append((x + i, y + j, self.color))
+
+
+        for i in xrange(5):
+            
+            if i in (0, 4):
+                for j in xrange(4):
+                    populate(i, j)
+            elif i == 2:
+                for j in xrange(1, 4):
+                    populate(i, j)
+            else:
+                populate(i, 4)
+            
+
+        return populated
     #'abcdefghijklmnopqrstuvwxyz
 
 
@@ -636,7 +662,7 @@ class Word(WorldObject):
             'j' : self.populate_j,
             'k' : self.populate_k,
             'l' : self.populate_l,
-            #'m' : self.populate_m,
+            'm' : self.populate_m,
             'n' : self.populate_n,
             'o' : self.populate_o,
             'p' : self.populate_p,
@@ -652,11 +678,18 @@ class Word(WorldObject):
             'z' : self.populate_z
         }
 
+        old_x = x
+
         populated = []
         for letter in self.word:
             if letter in letter_map:
                 populated.extend(letter_map[letter](x, y))
-                x += 6
+                x += 7
+            elif letter == '\n':
+                y -= 7
+                x = old_x
+            elif letter == ' ':
+                x += 5
 
 
         return populated

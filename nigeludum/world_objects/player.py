@@ -5,8 +5,9 @@ from nigeludum.misc import *
 from nigeludum.world_exceptions import *
 
 class Player(WorldObject):
-    def __init__(self, x, y, color, facing, health=3, scale=1):
+    def __init__(self, x, y, color, facing, health=3, scale=1, speed=1):
         WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale)
+        self.speed = speed
 
     def populated_at(self, x, y):
         """ returns a list of tuples containing the coordinates of populated 
@@ -51,7 +52,7 @@ class Player(WorldObject):
 
     def tick(self, world):
         try:
-            world.move_in_direction(self, self.facing, 1)
+            world.move_in_direction(self, self.facing, self.speed)
         except CollisionException as e:
             e.other.take_damage(0.05, self)
         except OutOfWorldException:

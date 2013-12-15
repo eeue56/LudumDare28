@@ -71,7 +71,7 @@ if __name__ == '__main__':
         def __init__(self):
             super(TestWindow, self).__init__()
             # initialize the GL widget
-            self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
+            self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'], speed=2)
 
             with open('/home/noah/Programming/Python/LudumDare28/nigeludum/level_data.json') as f:
                 levels = generate_objects(f.read())
@@ -105,7 +105,7 @@ if __name__ == '__main__':
             self.paint_timer.start(30)
             self.button_timer.start(25)
             self.tick_timer.start(25)
-            self.clean_timer.start(200)
+            self.clean_timer.start(500)
 
 
             self.resize(600, 400)
