@@ -25,6 +25,7 @@ class GLPlotWidget(QGLWidget):
         self.width = width
         self.height = height
         self.world = world
+        self.last_level = world.current_level
  
     def initializeGL(self):
         """Initialize OpenGL, VBOs, upload data on the GPU, etc.
@@ -39,6 +40,11 @@ class GLPlotWidget(QGLWidget):
         """Paint the scene.
         """
         # clear the buffer
+
+        if self.last_level != self.world.current_level:
+            self.last_level = self.world.current_level
+            self.resizeGL(self.width, self.height)
+
         r, g, b = self.world.floor_color
         gl.glClearColor(r, g, b, 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
@@ -126,6 +132,7 @@ if __name__ == '__main__':
 
         def check(self):
             face_movement = DIRECTIONS['still']
+            self.world.player.speed = 2
 
             for key in self.keys:  
 
@@ -137,6 +144,9 @@ if __name__ == '__main__':
                     face_movement += DIRECTIONS['up']
                 elif key == QtCore.Qt.Key_S:
                     face_movement += DIRECTIONS['down']
+
+                elif key == QtCore.Qt.Key_Shift:
+                    self.world.player.speed = 1
 
                 if self._need_to_place and key == QtCore.Qt.Key_Space:
                     self._need_to_place = False

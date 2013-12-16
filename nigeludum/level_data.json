@@ -9,18 +9,14 @@
         },
         "walls":{
             "up" : {
+                "leads_to" : 1,
+                "width" : 2,
                 "gaps":{
                     "start":20,
                     "end" : 40
-                },
-                "leads_to" : 1,
-                "width" : 2
+                }
             },
             "down" : {
-                "gaps":{
-                    "start":20,
-                    "end" : 40
-                },
                 "leads_to" : 1,
                 "width" : 2
             },
@@ -33,10 +29,6 @@
                 "width" : 2
             },
             "right" : {
-                "gaps":{
-                    "start":20,
-                    "end" : 40
-                },
                 "leads_to" : 1,
                 "width" : 2
             }
@@ -45,13 +37,13 @@
             "word":{
                 "x":15,
                 "y":79,
-                "word" : "hello!\nthis\nis\nnigeludum"
+                "word" : "hello!\nthis is\nnigeludum"
             }
         }
     },
     "1":{
-        "width" : 150,
-        "height" : 150,
+        "width" : 300,
+        "height" : 200,
         "color":{
             "r" : 0,
             "g" : 0,

@@ -20,14 +20,23 @@ def generate_objects(file_data):
         wall_dict = {}
         walls = []
         for wall, wall_data in level_data['walls'].iteritems():
+
             direction = DIRECTIONS[wall]
-            gaps = range(wall_data['gaps']['start'], wall_data['gaps']['end'])
+
+            if 'gaps' in wall_data:
+                gaps = range(wall_data['gaps']['start'], wall_data['gaps']['end'])
+            else:
+                gaps = []
+
             width = wall_data['width']
             wall_dict[direction] = wall_data['leads_to']
 
             walls.append(Wall(world_width, world_height, width=width, facing=direction, gaps=gaps))
 
         color = _color_dict_to_tuple(level_data['color'])
+
+        if level_id == "1":
+            print len(walls), wall_dict
 
         level = Level(color, wall_dict, world_width, world_height)
         level.add_objects(walls)

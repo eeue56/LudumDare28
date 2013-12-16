@@ -6,6 +6,10 @@ from copy import deepcopy as copy
 from nigeludum.world_exceptions import *
 from nigeludum.misc import *
 
+from nigeludum.world_objects import Word, Wall
+
+from random import choice
+
 class World(object):
 
     def __init__(self, player, level_controller):
@@ -36,6 +40,10 @@ class World(object):
     @property
     def objects(self):
         return self.level_controller.current_level.objects
+
+    @property
+    def current_level(self):
+        return self.level_controller.current_level
 
     def remove(self, object_):
         for (x, y, _) in object_.populated_squares:
@@ -93,7 +101,11 @@ class World(object):
 
     def draw(self):
         for object_ in self.objects:
-            object_.draw()
+
+            if isinstance(object_, Word):
+                object_._debug_draw()
+            else:
+                object_.draw()
 
         self.player.draw()
 
@@ -106,11 +118,35 @@ class World(object):
             self.player.tick(self)
         except OutOfWorldException:
             print 'here, moving to next level!'
-            x, y = MOVEMENTS[opposite_direction(self.player.facing)]
-            self.player.x += 5 * x
-            self.player.y += 5 * y
             self.next_level()
+
+
+            x, y = MOVEMENTS[opposite_direction(self.player.facing)]
             self.clean_up()
+
+
+            direct = opposite_direction(self.player.facing)
+            for object_ in self.objects:
+                print type(object_), object_.facing
+                if isinstance(object_, Wall) and object_.facing == direct:
+                    if direct in [DIRECTIONS['right'], DIRECTIONS['left']]:
+                        print 'ere'
+                        self.player.y = int((object_.gaps[0] + object_.gaps[-1]) / 2)
+
+                        if object_.facing == DIRECTIONS['right']:
+                            self.player.x = self.width - (object_.width + 10)
+                        else:
+                            self.player.x = (object_.width + 2)
+
+                    else:
+                        self.player.x = int((object_.gaps[0] + object_.gaps[-1]) / 2)
+
+                        if object_.facing == DIRECTIONS['up']:
+                            self.player.y = self.height - (object_.width + 10)
+                        else:
+                            self.player.y = (object_.width + 2)
+                    
+
 
         for object_ in self.objects:
             if object_.health <= 0:
