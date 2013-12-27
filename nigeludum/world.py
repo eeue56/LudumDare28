@@ -99,13 +99,23 @@ class World(object):
 
         self.level_controller.current_level.object_array = copy
 
+    def is_near_player(self, object_, distance_x=20, distance_y=20):
+        return (object_.x - distance_x < self.player.x < object_.x + distance_x \
+            and object_.y - distance_y < self.player.y < object_.y + distance_y)
+
     def draw(self):
         for object_ in self.objects:
 
             if isinstance(object_, Word):
                 object_._debug_draw()
+
             else:
-                object_.draw()
+                if isinstance(object_, Wall):
+                    object_.draw()
+                else:
+                    if self.is_near_player(object_):
+                        object_.draw()
+
 
         self.player.draw()
 
@@ -152,6 +162,8 @@ class World(object):
             if object_.health <= 0:
                 self.remove(object_)
 
+        ## TODO: kill player
         if self.player.health <= 0:
-            print 'player dead!'
+            pass
+
 
