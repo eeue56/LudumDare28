@@ -37,7 +37,7 @@
             "word":{
                 "x":15,
                 "y":79,
-                "word" : "hello!\nyou are\n stuck"
+                "word" : "hello!\nyou are\n stuck\n1"
             }
         },
         "random":{
@@ -61,13 +61,13 @@
                 }]
             },
             "giant_dog" : {
-                
+
             }
         }
     },
     "1":{
-        "width" : 300,
-        "height" : 200,
+        "width" : 400,
+        "height" : 250,
         "color":{
             "r" : 0,
             "g" : 0,

@@ -79,8 +79,10 @@ class World(object):
             
         for _ in xrange(distance):
             obj_ = self.object_going_to_collide(object_, x=x, y=y)
+
             if obj_ is not None:
                 raise CollisionException(obj_)
+                
             self._move_object(object_, x=x, y=y)
 
     def next_level(self):
