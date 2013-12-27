@@ -1,14 +1,12 @@
 from __future__ import division
 
-from collections import defaultdict
-from copy import deepcopy as copy
-
 from nigeludum.world_exceptions import *
 from nigeludum.misc import *
 
 from nigeludum.world_objects import Word, Wall
 
 from random import choice
+
 
 class World(object):
 
@@ -51,7 +49,6 @@ class World(object):
         self.objects.remove(object_)
 
     def _move(self, old, new, object_):
-
         for (x, y, _) in old:
             self.object_array[y][x] = None
         for (new_x, new_y, _) in new:
@@ -65,7 +62,6 @@ class World(object):
         object_.y += y
 
     def colliding_object(self, old_object, populated_next):
-
         for (x, y, _) in populated_next:
             if y < 0 or y >= self.height or x < 0 or x >= self.width:
                 raise OutOfWorldException
@@ -99,16 +95,14 @@ class World(object):
 
         self.level_controller.current_level.object_array = copy
 
-    def is_near_player(self, object_, distance_x=20, distance_y=20):
+    def is_near_player(self, object_, distance_x=50, distance_y=50):
         return (object_.x - distance_x < self.player.x < object_.x + distance_x \
             and object_.y - distance_y < self.player.y < object_.y + distance_y)
 
     def draw(self):
         for object_ in self.objects:
-
             if isinstance(object_, Word):
                 object_._debug_draw()
-
             else:
                 if isinstance(object_, Wall):
                     object_.draw()
@@ -116,31 +110,23 @@ class World(object):
                     if self.is_near_player(object_):
                         object_.draw()
 
-
         self.player.draw()
 
     def tick(self):
         for object_ in self.objects:
             object_.tick(self)
-            
 
         try:
             self.player.tick(self)
         except OutOfWorldException:
-            print 'here, moving to next level!'
             self.next_level()
-
-
-            x, y = MOVEMENTS[opposite_direction(self.player.facing)]
             self.clean_up()
 
-
             direct = opposite_direction(self.player.facing)
+
             for object_ in self.objects:
-                print type(object_), object_.facing
                 if isinstance(object_, Wall) and object_.facing == direct:
                     if direct in [DIRECTIONS['right'], DIRECTIONS['left']]:
-                        print 'ere'
                         self.player.y = int((object_.gaps[0] + object_.gaps[-1]) / 2)
 
                         if object_.facing == DIRECTIONS['right']:

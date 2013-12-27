@@ -6,6 +6,8 @@ from nigeludum.levels import Level
 from nigeludum.misc import *
 from nigeludum.world_objects import Wall, known_objects
 
+import logging
+
 def _color_dict_to_tuple(color):
     return color.values()
 
@@ -16,11 +18,11 @@ def _generate_fixed(level, fixed_records):
                 object_data['color'] = _color_dict_to_tuple(object_data['color'])
             level.add_object(known_objects[object_](**object_data))
 
-## TODO: implement
+
 def _generate_random(level, random_records):
     for object_class, object_data in random_records.iteritems():
         if object_class not in known_objects:
-            print 'no such class as {c}'.format(c=object_class)
+            logging.warning('no such class as {c}'.format(c=object_class))
             continue
 
         position_information = object_data['between']
@@ -68,6 +70,8 @@ def generate_objects(file_data):
 
     level_dict = {}
 
+    logging.debug("Loading {x} levels from level_data.json!".format(x=len(data)))
+
     for level_id, level_data in data.iteritems():
         world_width = level_data['width']
         world_height = level_data['height']
@@ -83,6 +87,14 @@ def generate_objects(file_data):
             _generate_random(level, level_data['random'])
 
         level_dict[int(level_id)] = level
+
+    if len(data) == len(level_dict):
+        logging.debug("All levels loaded correctly.")
+    else:
+        logging.debug("Not all levels loaded properly! {x} out of {y} were loaded!",
+            x=len(level_dict),
+            y=len(data))
+
 
     return level_dict
 

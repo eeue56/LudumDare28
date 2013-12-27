@@ -70,6 +70,9 @@ class GLPlotWidget(QGLWidget):
 if __name__ == '__main__':
     # import numpy for generating random data points
     import sys
+    import logging
+
+    logging.getLogger().setLevel(logging.DEBUG)
 
  
     # define a QT window with an OpenGL widget inside it
