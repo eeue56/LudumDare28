@@ -57,8 +57,8 @@ class WorldObject(object):
 
         gl.glPopMatrix() 
 
-    def take_damage(self, other):
-        pass
+    def take_damage(self, damage, other):
+        self.health -= damage
 
     def populated_at(self, x, y):
         """ returns a list of tuples containing the coordinates of populated 

@@ -14,8 +14,8 @@ from random import choice, randint
 from nigeludum.world import World
 from nigeludum.misc import *
 
-from nigeludum.world_objects import Player, Wall, Bomb
-from nigeludum.levels import Level, LevelController
+from nigeludum.world_objects import Player, Wall, Bomb, OldGrumper
+from nigeludum.levels import Level, LevelController, generate_objects
 
 
 class GLPlotWidget(QGLWidget):
@@ -25,6 +25,7 @@ class GLPlotWidget(QGLWidget):
         self.width = width
         self.height = height
         self.world = world
+        self.last_level = world.current_level
  
     def initializeGL(self):
         """Initialize OpenGL, VBOs, upload data on the GPU, etc.
@@ -39,6 +40,13 @@ class GLPlotWidget(QGLWidget):
         """Paint the scene.
         """
         # clear the buffer
+
+        if self.last_level != self.world.current_level:
+            self.last_level = self.world.current_level
+            self.resizeGL(self.width, self.height)
+
+        r, g, b = self.world.floor_color
+        gl.glClearColor(r, g, b, 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
         
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
@@ -62,6 +70,9 @@ class GLPlotWidget(QGLWidget):
 if __name__ == '__main__':
     # import numpy for generating random data points
     import sys
+    import logging
+
+    logging.getLogger().setLevel(logging.DEBUG)
 
  
     # define a QT window with an OpenGL widget inside it
@@ -69,15 +80,12 @@ if __name__ == '__main__':
         def __init__(self):
             super(TestWindow, self).__init__()
             # initialize the GL widget
-            self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'])
+            self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'], speed=2)
 
-            level = Level(COLOURS['grey'], {}, 100, 100)
+            with open('/home/noah/Programming/Python/LudumDare28/nigeludum/level_data.json') as f:
+                levels = generate_objects(f.read())
 
-            for x in (DIRECTIONS['up'], DIRECTIONS['right'], DIRECTIONS['left'], DIRECTIONS['down']):
-                level.add_object(Wall(100, 100, 5, facing=x))
-            level.add_object(Bomb(20, 20, facing=DIRECTIONS['still']))
-
-            level_controller = LevelController(level, {})
+            level_controller = LevelController(levels[0], levels)
 
             self.world = World(self.player, level_controller)
 
@@ -97,15 +105,26 @@ if __name__ == '__main__':
             self.tick_timer = QtCore.QTimer()
             QtCore.QObject.connect(self.tick_timer, QtCore.SIGNAL("timeout()"), self.world.tick)
 
+            self.clean_timer = QtCore.QTimer()
+            QtCore.QObject.connect(self.clean_timer, QtCore.SIGNAL("timeout()"), self.world.clean_up)
+
+
             QtCore.QMetaObject.connectSlotsByName(self)
             
             self.paint_timer.start(30)
             self.button_timer.start(25)
             self.tick_timer.start(25)
+            self.clean_timer.start(500)
+
 
             self.resize(600, 400)
 
+            self._need_to_place = False
+
         def keyPressEvent(self, event):
+            if event.key() == QtCore.Qt.Key_Space:
+                self._need_to_place = True
+
             self.keys.add(event.key())
 
         def keyReleaseEvent(self, event):
@@ -116,6 +135,7 @@ if __name__ == '__main__':
 
         def check(self):
             face_movement = DIRECTIONS['still']
+            self.world.player.speed = 2
 
             for key in self.keys:  
 
@@ -127,6 +147,13 @@ if __name__ == '__main__':
                     face_movement += DIRECTIONS['up']
                 elif key == QtCore.Qt.Key_S:
                     face_movement += DIRECTIONS['down']
+
+                elif key == QtCore.Qt.Key_Shift:
+                    self.world.player.speed = 1
+
+                if self._need_to_place and key == QtCore.Qt.Key_Space:
+                    self._need_to_place = False
+                    self.world.player.place_bomb(self.world)
 
             self.world.player.facing = face_movement
  
