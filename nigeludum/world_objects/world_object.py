@@ -3,6 +3,7 @@ from __future__ import division
 import OpenGL.GL as gl
 
 from nigeludum.misc import into_sections, draw_square
+from nigeludum.hivemind import RecordingMind, Action
 
 
 class WorldObject(object):
@@ -16,6 +17,7 @@ class WorldObject(object):
         self.damagable = damagable
         self.moveable = moveable
         self.facing = facing
+        self.mind = RecordingMind()
 
         self._square_cache = {}
         self._section_cache = {}
@@ -57,6 +59,7 @@ class WorldObject(object):
 
         gl.glPopMatrix() 
 
+    @Action("taking damage")
     def take_damage(self, damage, other):
         self.health -= damage
 

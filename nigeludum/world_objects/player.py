@@ -3,6 +3,7 @@ from __future__ import division
 from nigeludum.world_objects import WorldObject, Bomb
 from nigeludum.misc import *
 from nigeludum.world_exceptions import *
+from nigeludum.hivemind import Action
 
 class Player(WorldObject):
     def __init__(self, x, y, color, facing, health=3, scale=1, speed=1):
@@ -44,6 +45,7 @@ class Player(WorldObject):
 
         return populated
 
+    @Action("place bomb")
     def place_bomb(self, world):
         i, j = MOVEMENTS[self.facing]
         i *= 5

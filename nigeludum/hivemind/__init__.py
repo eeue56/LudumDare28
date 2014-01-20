@@ -1,2 +1,4 @@
-from nigeludum.mind.mind import *
-from nigeludum.mind.action import * 
+__all__ = ['action', 'mind']
+
+from nigeludum.hivemind.mind import *
+from nigeludum.hivemind.action import * 

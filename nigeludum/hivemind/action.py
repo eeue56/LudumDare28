@@ -1,10 +1,13 @@
+import logging
 
 class Action(object):
-    def __init__(self, name, mind):
+    def __init__(self, name):
         self.name = name
-        self.mind = mind
 
     def __call__(self, function):
-        def func(*args, **kwargs):
-            return function(*args, **kwargs)
+        def func(self_, *args, **kwargs):
+            logging.debug("Recording {action} from {player}.".format(action=self.name, player=self_))
+            logging.debug("|".join(str(arg) for arg in args))
+            self_.mind.record(self_, self.name)
+            return function(self_, *args, **kwargs)
         return func
