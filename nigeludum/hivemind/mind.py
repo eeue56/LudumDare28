@@ -15,6 +15,6 @@ class RecordingMind(Mind):
         Mind.__init__(self, *args, **kwargs)
         self.recording = []
 
-    def record(self, action):
-        self.recording.append(action)
+    def record(self, player, action):
+        self.recording.append((player, action))
 

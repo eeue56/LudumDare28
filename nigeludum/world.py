@@ -114,6 +114,30 @@ class World(object):
 
         self.player.draw()
 
+    def _move_to_next_level(self):
+        self.next_level()
+        self.clean_up()
+
+        direct = opposite_direction(self.player.facing)
+
+        for object_ in self.objects:
+            if isinstance(object_, Wall) and object_.facing == direct:
+                if direct in [DIRECTIONS['right'], DIRECTIONS['left']]:
+                    self.player.y = int((object_.gaps[0] + object_.gaps[-1]) / 2)
+
+                    if object_.facing == DIRECTIONS['right']:
+                        self.player.x = self.width - (object_.width + 10)
+                    else:
+                        self.player.x = (object_.width + 2)
+
+                else:
+                    self.player.x = int((object_.gaps[0] + object_.gaps[-1]) / 2)
+
+                    if object_.facing == DIRECTIONS['up']:
+                        self.player.y = self.height - (object_.width + 10)
+                    else:
+                        self.player.y = (object_.width + 2)
+
     def tick(self):
         for object_ in self.objects:
             object_.tick(self)
@@ -121,31 +145,8 @@ class World(object):
         try:
             self.player.tick(self)
         except OutOfWorldException:
-            self.next_level()
-            self.clean_up()
-
-            direct = opposite_direction(self.player.facing)
-
-            for object_ in self.objects:
-                if isinstance(object_, Wall) and object_.facing == direct:
-                    if direct in [DIRECTIONS['right'], DIRECTIONS['left']]:
-                        self.player.y = int((object_.gaps[0] + object_.gaps[-1]) / 2)
-
-                        if object_.facing == DIRECTIONS['right']:
-                            self.player.x = self.width - (object_.width + 10)
-                        else:
-                            self.player.x = (object_.width + 2)
-
-                    else:
-                        self.player.x = int((object_.gaps[0] + object_.gaps[-1]) / 2)
-
-                        if object_.facing == DIRECTIONS['up']:
-                            self.player.y = self.height - (object_.width + 10)
-                        else:
-                            self.player.y = (object_.width + 2)
+            self._move_to_next_level()
                     
-
-
         for object_ in self.objects:
             if object_.health <= 0:
                 self.remove(object_)
