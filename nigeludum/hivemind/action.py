@@ -1,8 +1,10 @@
 
 class Action(object):
-    def __init__(self, name, action):
+    def __init__(self, name, mind):
         self.name = name
-        self._action = action
+        self.mind = mind
 
-    def run(self, *args, **kwargs):
-        self._action(*args, **kwargs)
+    def __call__(self, function):
+        def func(*args, **kwargs):
+            return function(*args, **kwargs)
+        return func
