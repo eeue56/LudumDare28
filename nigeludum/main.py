@@ -82,7 +82,7 @@ if __name__ == '__main__':
             # initialize the GL widget
             self.player = Player(50, 50, COLOURS['white'], DIRECTIONS['up'], speed=2)
 
-            with open('/home/noah/Programming/Python/LudumDare28/nigeludum/level_data.json') as f:
+            with open('nigeludum/level_data.json') as f:
                 levels = generate_objects(f.read())
 
             level_controller = LevelController(levels[0], levels)
