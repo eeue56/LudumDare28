@@ -63,6 +63,12 @@ class WorldObject(object):
     def take_damage(self, damage, other):
         self.health -= damage
 
+    @Action("Moving ")
+    def move(self, world, facing, distance=1):
+        if facing == DIRECTIONS['still']:
+            return
+        world.move_in_direction(self, facing, distance)
+
     def populated_at(self, x, y):
         """ returns a list of tuples containing the coordinates of populated 
             squares, should the square be at this point

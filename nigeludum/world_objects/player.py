@@ -54,7 +54,7 @@ class Player(WorldObject):
 
     def tick(self, world):
         try:
-            world.move_in_direction(self, self.facing, self.speed)
+            self.move(world, self.facing, self.speed)
         except CollisionException as e:
             e.other.take_damage(0.05, self)
         except OutOfWorldException:
