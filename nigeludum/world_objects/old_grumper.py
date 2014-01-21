@@ -49,7 +49,7 @@ class OldGrumper(WorldObject):
 
     def tick(self, world):
         try:
-            world.move_in_direction(self, self.facing, 1)
+            self.move(world, self.facing, 1)
         except CollisionException as e:
             e.other.take_damage(0.2, self)
         except OutOfWorldException:

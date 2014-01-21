@@ -149,7 +149,9 @@ class World(object):
                     
         for object_ in self.objects:
             if object_.health <= 0:
+                object_.die()
                 self.remove(object_)
+
 
         ## TODO: kill player
         if self.player.health <= 0:

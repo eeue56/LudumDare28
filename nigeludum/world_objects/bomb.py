@@ -14,9 +14,10 @@ class Fragment(WorldObject):
         health=3, 
         scale=1,
         max_scale=3, 
-        speed=2):
+        speed=2,
+        spawner=None):
 
-        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale)
+        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, spawner=spawner)
 
         self.speed = speed
 
@@ -24,7 +25,7 @@ class Fragment(WorldObject):
         self.health -= 0.02
 
         try:
-            world.move_in_direction(self, self.facing, self.speed)
+            self.move(world, self.facing, self.speed)
         except CollisionException as e:
             e.other.take_damage((3 - self.health) * 2, self)
             self.health = 0
@@ -38,9 +39,10 @@ class Bomb(WorldObject):
         facing=DIRECTIONS['up'], 
         health=3, 
         scale=1,
-        max_scale=3):
+        max_scale=3,
+        spawner=None):
 
-        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale)
+        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, spawner=spawner)
         self.center_color = COLOURS['red']
         self.max_scale = max_scale
 
@@ -93,7 +95,7 @@ class Bomb(WorldObject):
                 self.scale += 1
 
         try:
-            world.move_in_direction(self, self.facing)
+            self.move(world, self.facing)
         except CollisionException as e:
 
             if self.health < 1:
@@ -102,7 +104,7 @@ class Bomb(WorldObject):
             self.scale -= 0.2
             try:
                 self.facing = opposite_direction(self.facing)
-                world.move_in_direction(self, self.facing)
+                self.move(world, self.facing)
             except CollisionException:
                 self.scale -= 0.5
                 self.max_scale = self.scale

@@ -50,7 +50,7 @@ class Player(WorldObject):
         i, j = MOVEMENTS[self.facing]
         i *= 5
         j *= 5
-        world.add_object(Bomb(self.x + i, self.y + j, facing=self.facing))
+        world.add_object(Bomb(self.x + i, self.y + j, facing=self.facing, spawner=self))
 
     def tick(self, world):
         try:

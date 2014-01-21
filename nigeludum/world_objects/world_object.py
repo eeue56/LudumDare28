@@ -8,7 +8,7 @@ from nigeludum.hivemind import RecordingMind, Action
 
 class WorldObject(object):
 
-    def __init__(self, x, y, color, facing, health=3, scale=1, damagable=True, moveable=True):
+    def __init__(self, x, y, color, facing, health=3, scale=1, damagable=True, moveable=True, spawner=None):
         self.health = health
         self.x = x
         self.y = y
@@ -18,11 +18,18 @@ class WorldObject(object):
         self.moveable = moveable
         self.facing = facing
         self.mind = RecordingMind()
+        self.spawned_by = spawner
 
         self._square_cache = {}
         self._section_cache = {}
+        #TODO
+        self._last_hit_by = None
 
     def tick(self, world):
+        pass
+
+    @Action("Death")
+    def die(self):
         pass
 
     def _debug_draw(self):
