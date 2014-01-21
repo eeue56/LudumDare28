@@ -2,7 +2,7 @@ from __future__ import division
 
 import OpenGL.GL as gl
 
-from nigeludum.misc import into_sections, draw_square
+from nigeludum.misc import into_sections, draw_square, DIRECTIONS
 from nigeludum.hivemind import RecordingMind, Action
 
 
@@ -63,7 +63,7 @@ class WorldObject(object):
     def take_damage(self, damage, other):
         self.health -= damage
 
-    @Action("Moving ")
+    @Action("Moving", {1 : 'facing', 2 : 'distance'})
     def move(self, world, facing, distance=1):
         if facing == DIRECTIONS['still']:
             return
