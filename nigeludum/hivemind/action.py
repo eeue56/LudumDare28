@@ -15,9 +15,9 @@ class Action(object):
 
     def __call__(self, function):
         def func(self_, *args, **kwargs):
+            messages = []
 
-
-            logging.debug("Recording {action} from {player}.".format(action=self.name, player=self_))
+            messages.append("Recording {action} from {player}.".format(action=self.name, player=self_))
             
             for index, name in self.watch.items():
                 if name in kwargs:
@@ -27,16 +27,15 @@ class Action(object):
                 else:
                     continue
 
-                logging.debug('{name} is currently {value}'.format(name=name, value=value))
+                messages.append('{name} is currently {value}'.format(name=name, value=value))
 
             for name in self.class_watch:
                 try:
-                    logging.debug("\n\n\n\n\n")
-                    logging.debug('{name} is current {value}'.format(name=name, value=self_.__getattribute__(name)))
-                    logging.debug("\n\n\n\n\n")
+                    messages.append('{name} is current {value}'.format(name=name, value=self_.__getattribute__(name)))
                 except AttributeError:
                     pass
 
+            logging.debug('\n'.join(messages))
             self_.mind.record(self_, self.name)
             return function(self_, *args, **kwargs)
         return func
