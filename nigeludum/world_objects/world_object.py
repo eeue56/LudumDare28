@@ -66,7 +66,7 @@ class WorldObject(object):
 
         gl.glPopMatrix() 
 
-    @Action("taking damage", class_watch=['spawner'])
+    @Action("taking damage", class_watch=['_last_hit_by'])
     def take_damage(self, damage, other):
         self.health -= damage
         self._last_hit_by = other

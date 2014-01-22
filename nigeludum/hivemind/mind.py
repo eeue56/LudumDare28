@@ -18,3 +18,13 @@ class RecordingMind(Mind):
     def record(self, player, action):
         self.recording.append((player, action))
 
+    def dump(self, class_name):
+        with open('data.dat', 'a') as f:
+            f.write('{name}\n'.format(name=class_name))
+
+            for recording in self.recording:
+                f.write(
+                    '{data}\n'.format(
+                        data=','.join(map(repr, recording))
+                    )
+                )

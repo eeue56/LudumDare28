@@ -159,4 +159,9 @@ class World(object):
         if self.player.health <= 0:
             pass
 
+    def mind_dump(self):
+        for object_ in self.objects:
+            object_.mind.dump(repr(object_))
+
+        self.player.mind.dump(repr(self.player))
 

@@ -156,6 +156,10 @@ if __name__ == '__main__':
                     self.world.player.place_bomb(self.world)
 
             self.world.player.facing = face_movement
+
+        def closeEvent(self, event):
+            print 'dumping'
+            self.world.mind_dump()
  
     # create the QT App and window
     app = QtGui.QApplication(sys.argv)
