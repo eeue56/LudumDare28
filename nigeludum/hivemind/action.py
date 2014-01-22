@@ -20,9 +20,14 @@ class Action(object):
             logging.debug("Recording {action} from {player}.".format(action=self.name, player=self_))
             
             for index, name in self.watch.items():
-                if len(args) <= index:
+                if name in kwargs:
+                    value = kwargs[name]
+                elif index < len(args):
+                    value = args[index]
+                else:
                     continue
-                logging.debug('{name} is currently {value}'.format(name=name, value=args[index]))
+
+                logging.debug('{name} is currently {value}'.format(name=name, value=value))
 
             for name in self.class_watch:
                 try:
