@@ -28,7 +28,7 @@ class WorldObject(object):
     def tick(self, world):
         pass
 
-    @Action("Death")
+    @Action("Death", class_watch=['_last_hit_by'])
     def die(self):
         pass
 
@@ -69,6 +69,7 @@ class WorldObject(object):
     @Action("taking damage")
     def take_damage(self, damage, other):
         self.health -= damage
+        self._last_hit_by = other
 
     @Action("Moving", {1 : 'facing', 2 : 'distance'})
     def move(self, world, facing, distance=1):

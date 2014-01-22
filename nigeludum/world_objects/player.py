@@ -64,7 +64,7 @@ class Player(WorldObject):
         if isinstance(other, Bomb):
             pass
         else:
-            self.health -= damage
+            WorldObject.take_damage(self, damage, other)
 
            
     

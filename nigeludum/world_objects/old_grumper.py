@@ -45,7 +45,7 @@ class OldGrumper(WorldObject):
 
     def take_damage(self, damage, other):
         other.take_damage(0.1, self)
-        self.health -= damage
+        WorldObject.take_damage(self, damage, other)
 
     def tick(self, world):
         try:
