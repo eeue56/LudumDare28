@@ -4,6 +4,7 @@ from nigeludum.world_exceptions import *
 from nigeludum.misc import *
 
 from nigeludum.world_objects import Word, Wall
+from nigeludum.hivemind import Action
 
 from random import choice
 
@@ -114,6 +115,7 @@ class World(object):
 
         self.player.draw()
 
+    @Action('Moved to new level')
     def _move_to_next_level(self):
         self.next_level()
         self.clean_up()

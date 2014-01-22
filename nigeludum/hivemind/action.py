@@ -33,7 +33,7 @@ class Action(object):
                 try:
                     messages.append('{name} is current {value}'.format(name=name, value=self_.__getattribute__(name)))
                 except AttributeError:
-                    pass
+                    logging.error("No such property as {name}".format(name=name))
 
             logging.debug('\n'.join(messages))
             self_.mind.record(self_, self.name)
