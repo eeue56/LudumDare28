@@ -22,9 +22,12 @@ class RecordingMind(Mind):
         with open('data.dat', 'a') as f:
             f.write('{name}\n'.format(name=class_name))
 
-            for recording in self.recording:
-                f.write(
-                    '{data}\n'.format(
-                        data=','.join(map(repr, recording))
-                    )
-                )
+            for (player, action) in self.recording:
+                f.write("----------\n")
+                f.write(repr(player) + '\n')
+                for key, value in player.__dict__.iteritems():
+                    if key[0] == '_':
+                        continue
+                    f.write('{key},{value}\n'.format(key=key, value=value))
+                f.write(repr(action) + '\n')
+                f.write("----------\n")
