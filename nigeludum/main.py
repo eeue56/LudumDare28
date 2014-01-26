@@ -72,7 +72,7 @@ if __name__ == '__main__':
     import sys
     import logging
 
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.ERROR)
 
  
     # define a QT window with an OpenGL widget inside it

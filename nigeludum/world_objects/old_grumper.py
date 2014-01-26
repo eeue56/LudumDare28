@@ -12,6 +12,7 @@ class OldGrumper(WorldObject):
         facing, 
         health=3, 
         scale=1,
+        speed=1,
         *args,
         **kwargs):
         WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, *args, **kwargs)
@@ -52,11 +53,16 @@ class OldGrumper(WorldObject):
         return populated
 
     def take_damage(self, damage, other):
-        other.take_damage(0.1, self)
+        if other is self:
+            return
         WorldObject.take_damage(self, damage, other)
+
+    def deal_damage(self, other):
+        other.take_damage(0.1, self)
 
     def tick(self, world):
         try:
+            self.facing = world.direction_to_object(self, world.player)
             self.move(world, self.facing, 1)
         except CollisionException as e:
             e.other.take_damage(0.2, self)

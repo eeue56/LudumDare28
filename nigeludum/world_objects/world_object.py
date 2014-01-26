@@ -82,6 +82,9 @@ class WorldObject(object):
         self.health -= damage
         self._last_hit_by = other
 
+    def deal_damage(self, other):
+        pass
+
     @Action("Moving", {1 : 'facing', 2 : 'distance'})
     def move(self, world, facing, distance=1):
         if facing == DIRECTIONS['still']:
