@@ -116,7 +116,8 @@ class World(object):
 
         self.level_controller.current_level.object_array = copy
 
-    def is_near_player(self, object_, distance_x=50, distance_y=50):
+    def is_near_player(self, object_, distance_x=50, distance_y=50, debug=False):
+        return True
         return (object_.x - distance_x < self.player.x < object_.x + distance_x \
             and object_.y - distance_y < self.player.y < object_.y + distance_y)
 

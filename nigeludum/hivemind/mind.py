@@ -12,9 +12,9 @@ class Mind(object):
         logging.error("Storing {action} as {type}".format(action=action, type=type))
         self._actions[type].append(action)
 
-    def next_move(self):
-        if 'attack' in self._actions:
-            return self._actions['attack'][0]
+    def next_move(self, behavior):
+        if behavior in self._actions:
+            return self._actions[behavior][0]
         return lambda *a, **kw: None 
 
 

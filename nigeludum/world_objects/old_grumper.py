@@ -6,6 +6,8 @@ from nigeludum.world_exceptions import *
 
 from nigeludum.hivemind import Action
 
+from random import randint, choice
+
 class OldGrumper(WorldObject):
     def __init__(self, 
         x, 
@@ -62,6 +64,21 @@ class OldGrumper(WorldObject):
     def deal_damage(self, other):
         other.take_damage(0.1, self)
 
+    @Action('move away from player', type='defence')
+    def move_away_from_player(self, world):
+        try:
+            direction = world.direction_to_object(self, world.player)
+            # jitter
+            if randint(0, 100) < 10:
+                direction = DIRECTIONS[choice(DIRECTIONS.keys())]
+
+            self.facing = opposite_direction(direction)
+            self.move(world, self.facing, 1)
+        except CollisionException as e:
+            e.other.take_damage(0.2, self)
+        except OutOfWorldException:
+            pass
+
     @Action('move towards player', type='attack')
     def move_towards_player(self, world):
         try:
@@ -74,4 +91,5 @@ class OldGrumper(WorldObject):
         
 
     def tick(self, world):
-        self.mind.next_move()(world)
+        behavior = choice(['attack', 'defence'])
+        self.mind.next_move(behavior)(world)
