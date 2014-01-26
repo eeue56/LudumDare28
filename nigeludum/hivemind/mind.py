@@ -1,12 +1,21 @@
+import logging
 
 class Mind(object):
 
     def __init__(self):
         self.action_paths = None
-        self._actions = []
+        self._actions = {}
 
-    def register_action(self, action):
-        self._actions.append(action)
+    def register_action(self, action, type):
+        if type not in self._actions:
+            self._actions[type] = []
+        logging.error("Storing {action} as {type}".format(action=action, type=type))
+        self._actions[type].append(action)
+
+    def next_move(self):
+        if 'attack' in self._actions:
+            return self._actions['attack'][0]
+        return lambda *a, **kw: None 
 
 
 class RecordingMind(Mind):

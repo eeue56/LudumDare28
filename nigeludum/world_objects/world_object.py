@@ -20,6 +20,7 @@ class WorldObject(object):
         spawner=None,
         *args,
         **kwargs):
+
         self.health = health
         self.x = x
         self.y = y
@@ -35,6 +36,20 @@ class WorldObject(object):
         self._section_cache = {}
         #TODO
         self._last_hit_by = None
+
+        self._regsiter_actions()
+        
+
+    def _regsiter_actions(self):
+        """ Very very very very hacky. Turn your eyes away here """
+        from new import instancemethod
+        for func_name in dir(self):
+            try:
+                func = self.__getattribute__(func_name)
+            except:
+                pass
+            if isinstance(func, instancemethod) and 'action' in func.func_dict:
+                self.mind.register_action(func, func.func_dict['type'])
 
     def tick(self, world):
         pass
@@ -85,7 +100,7 @@ class WorldObject(object):
     def deal_damage(self, other):
         pass
 
-    @Action("Moving", {1 : 'facing', 2 : 'distance'})
+    @Action("Moving", watch={1 : 'facing', 2 : 'distance'})
     def move(self, world, facing, distance=1):
         if facing == DIRECTIONS['still']:
             return

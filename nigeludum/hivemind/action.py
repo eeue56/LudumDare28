@@ -1,7 +1,7 @@
 import logging
 
 class Action(object):
-    def __init__(self, name, watch=None, class_watch=None):
+    def __init__(self, name, mind=None, type=None, watch=None, class_watch=None):
         self.name = name
 
         if watch is None:
@@ -13,8 +13,16 @@ class Action(object):
         self.watch = watch
         self.class_watch = class_watch
 
+        if mind is not None:
+            mind.register_action(self, type)
+
+        self.type = type
+        
     def __call__(self, function):
+        function.func_dict['action'] = True
+        function.f = True
         def func(self_, *args, **kwargs):
+
             messages = []
 
             messages.append("Recording {action} from {player}.".format(action=self.name, player=self_))
@@ -44,4 +52,7 @@ class Action(object):
                 logging.error("{name} has no mind!".format(name=self.name))
 
             return function(self_, *args, **kwargs)
+
+        func.func_dict['action'] = True
+        func.func_dict['type'] = self.type
         return func

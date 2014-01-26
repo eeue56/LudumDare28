@@ -4,6 +4,8 @@ from nigeludum.world_objects import WorldObject, Bomb
 from nigeludum.misc import *
 from nigeludum.world_exceptions import *
 
+from nigeludum.hivemind import Action
+
 class OldGrumper(WorldObject):
     def __init__(self, 
         x, 
@@ -60,7 +62,8 @@ class OldGrumper(WorldObject):
     def deal_damage(self, other):
         other.take_damage(0.1, self)
 
-    def tick(self, world):
+    @Action('move towards player', type='attack')
+    def move_towards_player(self, world):
         try:
             self.facing = world.direction_to_object(self, world.player)
             self.move(world, self.facing, 1)
@@ -68,6 +71,7 @@ class OldGrumper(WorldObject):
             e.other.take_damage(0.2, self)
         except OutOfWorldException:
             pass
+        
 
-           
-    
+    def tick(self, world):
+        self.mind.next_move()(world)
