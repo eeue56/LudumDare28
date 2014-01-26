@@ -4,8 +4,17 @@ from nigeludum.world_objects import WorldObject
 from nigeludum.misc import * 
 
 class Wall(WorldObject):
-    def __init__(self, x, y, width=5, gaps=None, color=COLOURS['grey'], facing=DIRECTIONS['up'], speed=0):
-        WorldObject.__init__(self, x, y, color, facing, damagable=False, moveable=False)
+    def __init__(self, 
+        x, 
+        y, 
+        width=5, 
+        gaps=None, 
+        color=COLOURS['grey'], 
+        facing=DIRECTIONS['up'], 
+        speed=0,
+        *args,
+        **kwargs):
+        WorldObject.__init__(self, x, y, color, facing, damagable=False, moveable=False, *args, **kwargs)
 
         if gaps is None:
             gaps = []

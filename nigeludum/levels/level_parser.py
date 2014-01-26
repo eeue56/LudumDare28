@@ -12,8 +12,9 @@ def _color_dict_to_tuple(color):
     return color.values()
 
 def _has_trousers(object_data):
-    return  'render_trousers' in object_data and not object_data['render_trousers']
-
+    if 'render_trousers' in object_data:
+        return object_data['render_trousers']
+    return True
 
 def _generate_fixed(level, fixed_records):
     for object_class, object_data in fixed_records.iteritems():
@@ -24,6 +25,7 @@ def _generate_fixed(level, fixed_records):
 
         if not _has_trousers(object_data):
             continue
+
         if 'color' in object_data:
             object_data['color'] = _color_dict_to_tuple(object_data['color'])
         level.add_object(known_objects[object_class](**object_data))

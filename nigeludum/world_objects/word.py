@@ -4,8 +4,16 @@ from nigeludum.world_objects import WorldObject
 from nigeludum.misc import * 
 
 class Word(WorldObject):
-    def __init__(self, x, y, word, color=COLOURS['grey'], facing=DIRECTIONS['up'], speed=0):
-        WorldObject.__init__(self, x, y, color, facing, damagable=False, moveable=False)
+    def __init__(self, 
+        x, 
+        y, 
+        word, 
+        color=COLOURS['grey'], 
+        facing=DIRECTIONS['up'], 
+        speed=0,
+        *args,
+        **kwargs):
+        WorldObject.__init__(self, x, y, color, facing, damagable=False, moveable=False, *args, **kwargs)
         self.word = word
 
     def tick(self, world):

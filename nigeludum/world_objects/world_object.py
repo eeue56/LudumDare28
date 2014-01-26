@@ -8,7 +8,18 @@ from nigeludum.hivemind import RecordingMind, Action
 
 class WorldObject(object):
 
-    def __init__(self, x, y, color, facing, health=3, scale=1, damagable=True, moveable=True, spawner=None):
+    def __init__(self, 
+        x, 
+        y, 
+        color, 
+        facing, 
+        health=3, 
+        scale=1, 
+        damagable=True, 
+        moveable=True, 
+        spawner=None,
+        *args,
+        **kwargs):
         self.health = health
         self.x = x
         self.y = y

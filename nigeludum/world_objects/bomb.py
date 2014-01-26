@@ -15,9 +15,12 @@ class Fragment(WorldObject):
         scale=1,
         max_scale=3, 
         speed=2,
-        spawner=None):
+        spawner=None,
+        *args, 
+        **kwargs):
 
-        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, spawner=spawner)
+        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, spawner=spawner, *args, **kwargs)
+
 
         self.speed = speed
 
@@ -40,9 +43,11 @@ class Bomb(WorldObject):
         health=3, 
         scale=1,
         max_scale=3,
-        spawner=None):
+        spawner=None,
+        *args, 
+        **kwargs):
 
-        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, spawner=spawner)
+        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, spawner=spawner, *args, **kwargs)
         self.center_color = COLOURS['red']
         self.max_scale = max_scale
 

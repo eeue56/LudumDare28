@@ -6,8 +6,17 @@ from nigeludum.world_exceptions import *
 from nigeludum.hivemind import Action
 
 class Player(WorldObject):
-    def __init__(self, x, y, color, facing, health=3, scale=1, speed=1):
-        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale)
+    def __init__(self, 
+        x, 
+        y, 
+        color, 
+        facing, 
+        health=3, 
+        scale=1, 
+        speed=1,
+        *args, 
+        **kwargs):
+        WorldObject.__init__(self, x, y, color, facing, health=3, scale=scale, *args, **kwargs)
         self.speed = speed
 
     def populated_at(self, x, y):
