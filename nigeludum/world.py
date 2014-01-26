@@ -71,6 +71,24 @@ class World(object):
                 return self.object_array[y][x]
         return None
 
+    def direction_to_object(self, object_to_move, object_to_meet):
+        x, y = object_to_move.x, object_to_move.y
+        i, j = object_to_meet.x, object_to_meet.y
+
+        direction = DIRECTIONS['still']
+
+        if j < y:
+            direction += DIRECTIONS['down']
+        elif j > y:
+            direction += DIRECTIONS['up']
+
+        if i < x:
+            direction += DIRECTIONS['left']
+        elif i > x:
+            direction += DIRECTIONS['right']
+
+        return direction
+
     def object_going_to_collide(self, object_, x=0, y=0):
         projected_points = object_.populated_at(object_.x + x, object_.y + y)
         return self.colliding_object(object_, projected_points)
