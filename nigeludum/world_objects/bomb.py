@@ -6,6 +6,7 @@ from nigeludum.world_exceptions import *
 
 from random import randint, choice
 
+possibles = [x for x in DIRECTIONS.keys() if x != 'still']
 
 class Fragment(WorldObject):
     def __init__(self, x, y, 
@@ -85,7 +86,7 @@ class Bomb(WorldObject):
         return populated
 
     def tick(self, world):
-        possibles = [x for x in DIRECTIONS.keys() if x != 'still']
+        
         if self.scale < self.max_scale:
             self.scale += 0.1
         else:
