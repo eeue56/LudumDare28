@@ -11,20 +11,31 @@ import logging
 def _color_dict_to_tuple(color):
     return color.values()
 
+def _has_trousers(object_data):
+    return  'render_trousers' in object_data and not object_data['render_trousers']
+
+
 def _generate_fixed(level, fixed_records):
-    for object_, object_data in fixed_records.iteritems():
-        if object_ in known_objects:
-            if 'render_trousers' in object_data and object_data['render_trousers'] == False:
-                continue
-            if 'color' in object_data:
-                object_data['color'] = _color_dict_to_tuple(object_data['color'])
-            level.add_object(known_objects[object_](**object_data))
+    for object_class, object_data in fixed_records.iteritems():
+
+        if object_class not in known_objects:
+            logging.warning('no such class as {c}'.format(c=object_class))
+            continue
+
+        if not _has_trousers(object_data):
+            continue
+        if 'color' in object_data:
+            object_data['color'] = _color_dict_to_tuple(object_data['color'])
+        level.add_object(known_objects[object_class](**object_data))
 
 
 def _generate_random(level, random_records):
     for object_class, object_data in random_records.iteritems():
         if object_class not in known_objects:
             logging.warning('no such class as {c}'.format(c=object_class))
+            continue
+
+        if not _has_trousers(object_data):
             continue
 
         position_information = object_data['between']
