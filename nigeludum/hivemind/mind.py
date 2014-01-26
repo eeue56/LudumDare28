@@ -25,6 +25,9 @@ class RecordingMind(Mind):
             for (player, action) in self.recording:
                 f.write("----------\n")
                 f.write(repr(player) + '\n')
+
+                # fast, simple, and hacky.
+                # TODO: unhackify
                 for key, value in player.__dict__.iteritems():
                     if key[0] == '_':
                         continue

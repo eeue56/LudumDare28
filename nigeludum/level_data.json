@@ -35,6 +35,7 @@
         },
         "fixed":{
             "word":{
+                "render_trousers" : false,
                 "x":15,
                 "y":79,
                 "word" : "hello!\nyou are\n stuck\n1"

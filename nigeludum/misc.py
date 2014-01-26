@@ -83,15 +83,6 @@ def into_sections(blocklist):
             if last_color is None:
                 last_color = color
 
-            if y in range(21, 23) and x == 20:
-                print 'starting debug'
-                print 'y', y
-                print 'x', x
-                print 'color', color
-                print 'last', last_color
-                print 'last x', last_x
-                print 'ending'
-
             if x == last_x + 1 and color == last_color:
                 if start_x is None:
                     last_color = color

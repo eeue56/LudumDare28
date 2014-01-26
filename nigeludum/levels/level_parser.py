@@ -14,6 +14,8 @@ def _color_dict_to_tuple(color):
 def _generate_fixed(level, fixed_records):
     for object_, object_data in fixed_records.iteritems():
         if object_ in known_objects:
+            if 'render_trousers' in object_data and object_data['render_trousers'] == False:
+                continue
             if 'color' in object_data:
                 object_data['color'] = _color_dict_to_tuple(object_data['color'])
             level.add_object(known_objects[object_](**object_data))
@@ -26,7 +28,6 @@ def _generate_random(level, random_records):
             continue
 
         position_information = object_data['between']
-
 
         x = position_information['x']
         y = position_information['y']
@@ -81,7 +82,9 @@ def generate_objects(file_data):
 
         level = Level(color, wall_dict, world_width, world_height)
         level.add_objects(walls)
-        _generate_fixed(level, level_data['fixed'])
+
+        if 'fixed' in level_data:
+            _generate_fixed(level, level_data['fixed'])
 
         if 'random' in level_data:
             _generate_random(level, level_data['random'])

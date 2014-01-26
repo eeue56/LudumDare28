@@ -115,16 +115,10 @@ class World(object):
 
         self.player.draw()
 
-    @Action('Moved to new level')
-    def _move_to_next_level(self):
-        self.next_level()
-        self.clean_up()
-
-        direct = opposite_direction(self.player.facing)
-
+    def _move_player_into_gap(self, direction):
         for object_ in self.objects:
-            if isinstance(object_, Wall) and object_.facing == direct:
-                if direct in [DIRECTIONS['right'], DIRECTIONS['left']]:
+            if isinstance(object_, Wall) and object_.facing == direction:
+                if direction in [DIRECTIONS['right'], DIRECTIONS['left']]:
                     self.player.y = int((object_.gaps[0] + object_.gaps[-1]) / 2)
 
                     if object_.facing == DIRECTIONS['right']:
@@ -139,6 +133,17 @@ class World(object):
                         self.player.y = self.height - (object_.width + 10)
                     else:
                         self.player.y = (object_.width + 2)
+
+
+    @Action('Moved to new level')
+    def _move_to_next_level(self):
+        self.next_level()
+        self.clean_up()
+
+        direction = opposite_direction(self.player.facing)
+        self._move_player_into_gap(direction)
+
+        
 
     def tick(self):
         for object_ in self.objects:
@@ -164,4 +169,3 @@ class World(object):
             object_.mind.dump(repr(object_))
 
         self.player.mind.dump(repr(self.player))
-

@@ -35,7 +35,13 @@ class Action(object):
                 except AttributeError:
                     logging.error("No such property as {name}".format(name=name))
 
+
             logging.debug('\n'.join(messages))
-            self_.mind.record(self_, self.name)
+
+            try:
+                self_.mind.record(self_, self.name)
+            except AttributeError:
+                logging.error("{name} has no mind!".format(name=self.name))
+
             return function(self_, *args, **kwargs)
         return func
