@@ -39,15 +39,19 @@ MOVEMENTS = {
 }
 
 def opposite_direction(direction):
+    """ Returns the opposite direction """
     return -direction
 
 def random_color():
+    """ Returns a colour tuple """
     return tuple(y / 255 for y in (randint(0, 255), randint(0, 255), randint(0, 255)))
 
 def draw_square(x, y, x_size=1, y_size=1):
+    """ Draw a square of given location and size """
     gl.glRectf(x, y, x + x_size, y + y_size)
 
 def into_ordered_dict(blocklist):
+    """ Puts the blocklist into an ordered dict """
     into_dict = OrderedDict()
 
     for block in blocklist:
@@ -65,10 +69,15 @@ def into_ordered_dict(blocklist):
     return out
 
 def into_sections(blocklist):
+    """ Breaks the blocklist down into sections to 
+        increase performance of the game, by drawing things
+        as large sections rather than singular blocks
+    """
     # TODO:
     # goes wrong when
     # x = 0 
     # y > 0, y < max_y
+    # TODO: refactor
     into_dict = into_ordered_dict(blocklist)
 
     sections = []
