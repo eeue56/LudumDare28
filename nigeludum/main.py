@@ -158,7 +158,7 @@ if __name__ == '__main__':
             self.world.player.facing = face_movement
 
         def closeEvent(self, event):
-            print 'dumping'
+            logging.debug("Dumping to text file")
             self.world.mind_dump()
  
     # create the QT App and window
