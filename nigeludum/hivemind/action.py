@@ -19,8 +19,6 @@ class Action(object):
         self.type = type
         
     def __call__(self, function):
-        function.func_dict['action'] = True
-        function.f = True
         def func(self_, *args, **kwargs):
 
             messages = []

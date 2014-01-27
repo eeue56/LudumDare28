@@ -18,6 +18,7 @@ class World(object):
         self.level_controller.start()
 
     def add_object(self, *args, **kwargs):
+        """ Adds an object to the current level """
         self.level_controller.current_level.add_object(*args, **kwargs)
 
     @property
@@ -45,17 +46,21 @@ class World(object):
         return self.level_controller.current_level
 
     def remove(self, object_):
+        """ Removes the object from the world - but not the level """
+        #TODO: remove from level as well
         for (x, y, _) in object_.populated_squares:
             self.object_array[y][x] = None
         self.objects.remove(object_)
 
     def _move(self, old, new, object_):
+        """ Moves the object from old to new """
         for (x, y, _) in old:
             self.object_array[y][x] = None
         for (new_x, new_y, _) in new:
             self.object_array[new_y][new_x] = object_
 
     def _move_object(self, object_, x=0, y=0):
+        """ Moves the object by x and y """
         self._move(object_.populated_squares, 
             object_.populated_at(object_.x + x, object_.y + y), 
             object_)
@@ -63,6 +68,11 @@ class World(object):
         object_.y += y
 
     def colliding_object(self, old_object, populated_next):
+        """ Returns the colliding object using the next populated 
+            squares or None if none exists. If the object moves 
+            out of the world (or level), then OutOfWorldException 
+            is raised
+        """
         for (x, y, _) in populated_next:
             if y < 0 or y >= self.height or x < 0 or x >= self.width:
                 raise OutOfWorldException
@@ -72,6 +82,9 @@ class World(object):
         return None
 
     def direction_to_object(self, object_to_move, object_to_meet):
+        """ Returns the direction the object should face in 
+            order to move towards the object desired to meet 
+        """
         x, y = object_to_move.x, object_to_move.y
         i, j = object_to_meet.x, object_to_meet.y
 
@@ -90,10 +103,17 @@ class World(object):
         return direction
 
     def object_going_to_collide(self, object_, x=0, y=0):
+        """ Works out if the object is going to collide when it moves
+            by x, y
+        """
         projected_points = object_.populated_at(object_.x + x, object_.y + y)
         return self.colliding_object(object_, projected_points)
 
     def move_in_direction(self, object_, direction, distance=1):
+        """ Attempts to move the object in direction and distance
+            Throws CollisionException is collides, OutOfWorldException 
+            if the object_ moves out of the world 
+        """
         x, y = MOVEMENTS[direction]
             
         for _ in xrange(distance):
@@ -105,9 +125,12 @@ class World(object):
             self._move_object(object_, x=x, y=y)
 
     def next_level(self):
+        """ Moves to next level based on the way the player 
+            is facing """
         self.level_controller.next_level(self.player.facing)
 
     def clean_up(self):
+        """ Cleans up the objects in the world """
         copy = [[None for x in xrange(self.width)] for y in xrange(self.height)]
 
         for object_ in self.objects:
@@ -117,11 +140,15 @@ class World(object):
         self.level_controller.current_level.object_array = copy
 
     def is_near_player(self, object_, distance_x=50, distance_y=50, debug=False):
+        """ Works out if the object is near the player 
+            Used as a render clip 
+        """
         return True
         return (object_.x - distance_x < self.player.x < object_.x + distance_x \
             and object_.y - distance_y < self.player.y < object_.y + distance_y)
 
     def draw(self):
+        """ Draws objects in the world """
         for object_ in self.objects:
             if isinstance(object_, Word):
                 object_._debug_draw()
@@ -135,6 +162,7 @@ class World(object):
         self.player.draw()
 
     def _move_player_into_gap(self, direction):
+        """ Places the player in the door way of the level """
         for object_ in self.objects:
             if isinstance(object_, Wall) and object_.facing == direction:
                 if direction in [DIRECTIONS['right'], DIRECTIONS['left']]:
@@ -156,6 +184,7 @@ class World(object):
 
     @Action('Moved to new level')
     def _move_to_next_level(self):
+        """ Moves the world to the next level """
         self.next_level()
         self.clean_up()
 
@@ -165,6 +194,8 @@ class World(object):
         
 
     def tick(self):
+        """ Does a tick of the world """
+        #TODO: use time-based deltatimes
         for object_ in self.objects:
             object_.tick(self)
 
@@ -184,6 +215,7 @@ class World(object):
             pass
 
     def mind_dump(self):
+        """ Dump the mind of all the objects """
         for object_ in self.objects:
             object_.mind.dump(repr(object_))
 
