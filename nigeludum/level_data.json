@@ -1,7 +1,7 @@
 {
     "0":{
-        "width" : 150,
-        "height" : 100,
+        "width" : 80,
+        "height" : 80,
         "color":{
             "r" : 0,
             "g" : 0,
@@ -10,21 +10,13 @@
         "walls":{
             "up" : {
                 "leads_to" : 1,
-                "width" : 2,
-                "gaps":{
-                    "start":20,
-                    "end" : 40
-                }
+                "width" : 2
             },
             "down" : {
                 "leads_to" : 1,
                 "width" : 2
             },
             "left" : {
-                "gaps":{
-                    "start":20,
-                    "end" : 40
-                },
                 "leads_to" : 1,
                 "width" : 2
             },
@@ -60,65 +52,7 @@
                     "g" : 255,
                     "b" : 0
                 }]
-            },
-            "giant_dog" : {
-
             }
-        }
-    },
-    "1":{
-        "width" : 400,
-        "height" : 250,
-        "color":{
-            "r" : 0,
-            "g" : 0,
-            "b" : 0
-        },
-        "walls":{
-            "up" : {
-                "gaps":{
-                    "start":30,
-                    "end" : 50
-                },
-                "leads_to" : 0,
-                "width" : 2
-            },
-            "down" : {
-                "gaps":{
-                    "start":30,
-                    "end" : 50
-                },
-                "leads_to" : 0,
-                "width" : 2
-            },
-            "left" : {
-                "gaps":{
-                    "start":30,
-                    "end" : 50
-                },
-                "leads_to" : 0,
-                "width" : 2
-            },
-            "right" : {
-                "gaps":{
-                    "start":30,
-                    "end" : 50
-                },
-                "leads_to" : 0,
-                "width" : 2
-            }
-        },
-        "fixed":{
-            "old_grumper":{
-                "x": 20,
-                "y": 20,
-                "color" : {
-                    "r" : 1,
-                    "g" : 0,
-                    "b" : 0
-                },
-                "facing" : 0
-            }
-        }
-    }
+      }
+  }
 }

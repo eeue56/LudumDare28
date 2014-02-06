@@ -54,26 +54,17 @@ class Player(WorldObject):
 
         return populated
 
-    @Action("place bomb")
-    def place_bomb(self, world):
-        i, j = MOVEMENTS[self.facing]
-        i *= 5
-        j *= 5
-        world.add_object(Bomb(self.x + i, self.y + j, facing=self.facing, spawner=self))
-
     def tick(self, world):
         try:
             self.move(world, self.facing, self.speed)
         except CollisionException as e:
+            self.take_damage(5, e.other)
             e.other.take_damage(0.05, self)
         except OutOfWorldException:
             raise
 
     def take_damage(self, damage, other):
-        if isinstance(other, Bomb):
-            pass
-        else:
-            WorldObject.take_damage(self, damage, other)
+        WorldObject.take_damage(self, damage, other)
 
            
     

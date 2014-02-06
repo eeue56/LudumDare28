@@ -98,13 +98,6 @@ if __name__ == '__main__':
 
             self.paint_timer = QtCore.QTimer()
             QtCore.QObject.connect(self.paint_timer, QtCore.SIGNAL("timeout()"), self.widget.updateGL)
-            
-            self.button_timer = QtCore.QTimer()
-            QtCore.QObject.connect(self.button_timer, QtCore.SIGNAL("timeout()"), self.check)
-
-            self.tick_timer = QtCore.QTimer()
-            QtCore.QObject.connect(self.tick_timer, QtCore.SIGNAL("timeout()"), self.world.tick)
-
             self.clean_timer = QtCore.QTimer()
             QtCore.QObject.connect(self.clean_timer, QtCore.SIGNAL("timeout()"), self.world.clean_up)
 
@@ -112,50 +105,32 @@ if __name__ == '__main__':
             QtCore.QMetaObject.connectSlotsByName(self)
             
             self.paint_timer.start(30)
-            self.button_timer.start(25)
-            self.tick_timer.start(25)
             self.clean_timer.start(500)
 
 
             self.resize(600, 400)
 
-            self._need_to_place = False
-
         def keyPressEvent(self, event):
-            if event.key() == QtCore.Qt.Key_Space:
-                self._need_to_place = True
 
-            self.keys.add(event.key())
+            key = event.key()
 
-        def keyReleaseEvent(self, event):
-            try:
-                self.keys.remove(event.key())
-            except:
-                pass
-
-        def check(self):
-            face_movement = DIRECTIONS['still']
-            self.world.player.speed = 2
-
-            for key in self.keys:  
-
-                if key == QtCore.Qt.Key_A:
-                    face_movement += DIRECTIONS['left']
-                elif key == QtCore.Qt.Key_D:
-                    face_movement += DIRECTIONS['right']
-                elif key == QtCore.Qt.Key_W:
-                    face_movement += DIRECTIONS['up']
-                elif key == QtCore.Qt.Key_S:
-                    face_movement += DIRECTIONS['down']
-
-                elif key == QtCore.Qt.Key_Shift:
-                    self.world.player.speed = 1
-
-                if self._need_to_place and key == QtCore.Qt.Key_Space:
-                    self._need_to_place = False
-                    self.world.player.place_bomb(self.world)
+            if key == QtCore.Qt.Key_A:
+                face_movement = DIRECTIONS['left']
+            elif key == QtCore.Qt.Key_D:
+                face_movement = DIRECTIONS['right']
+            elif key == QtCore.Qt.Key_W:
+                face_movement = DIRECTIONS['up']
+            elif key == QtCore.Qt.Key_S:
+                face_movement = DIRECTIONS['down']
+            elif key == QtCore.Qt.Key_Space: 
+                face_movement = DIRECTIONS['still']
+            else:
+                return
 
             self.world.player.facing = face_movement
+
+            self.world.tick()
+
 
         def closeEvent(self, event):
             logging.debug("Dumping to text file")

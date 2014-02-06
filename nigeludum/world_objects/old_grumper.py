@@ -75,9 +75,13 @@ class OldGrumper(WorldObject):
             self.facing = opposite_direction(direction)
             self.move(world, self.facing, 1)
         except CollisionException as e:
-            e.other.take_damage(0.2, self)
+            e.other.take_damage(5, self)
         except OutOfWorldException:
             pass
+
+    @Action('stay still', type='defence')
+    def stay_still(self, world):
+        self.facing = DIRECTIONS['still']
 
     @Action('move towards player', type='attack')
     def move_towards_player(self, world):
@@ -85,11 +89,11 @@ class OldGrumper(WorldObject):
             self.facing = world.direction_to_object(self, world.player)
             self.move(world, self.facing, 1)
         except CollisionException as e:
-            e.other.take_damage(0.2, self)
+            e.other.take_damage(5, self)
         except OutOfWorldException:
             pass
         
 
     def tick(self, world):
-        behavior = choice(['attack', 'defence'])
+        behavior = choice(['attack', 'attack', 'attack', 'attack' 'defence'])
         self.mind.next_move(behavior)(world)
