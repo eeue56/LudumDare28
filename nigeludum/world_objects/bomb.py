@@ -8,6 +8,11 @@ from random import randint, choice
 
 possibles = [x for x in DIRECTIONS.keys() if x != 'still']
 
+try:
+    xrange(1)
+except NameError:
+    xrange = range
+
 class Fragment(WorldObject):
     def __init__(self, x, y, 
         color=COLOURS['grey'], 

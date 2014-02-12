@@ -8,6 +8,12 @@ from nigeludum.hivemind import Action
 
 from random import randint, choice
 
+try:
+    xrange(1)
+except NameError:
+    xrange = range
+
+
 class OldGrumper(WorldObject):
     def __init__(self, 
         x, 
@@ -75,7 +81,7 @@ class OldGrumper(WorldObject):
             self.facing = opposite_direction(direction)
             self.move(world, self.facing, 1)
         except CollisionException as e:
-            e.other.take_damage(5, self)
+            e.other.take_damage(other, self)
         except OutOfWorldException:
             pass
 

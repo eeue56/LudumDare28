@@ -42,14 +42,18 @@ class WorldObject(object):
 
     def _regsiter_actions(self):
         """ Very very very very hacky. Turn your eyes away here """
-        from new import instancemethod
+        from types import MethodType as instancemethod
         for func_name in dir(self):
             try:
                 func = self.__getattribute__(func_name)
             except:
                 pass
-            if isinstance(func, instancemethod) and 'action' in func.func_dict:
-                self.mind.register_action(func, func.func_dict['type'])
+            if isinstance(func, instancemethod):
+                try:
+                    if 'action' in func.func_dict:
+                        self.mind.register_action(func, func.func_dict['type'])
+                except AttributeError:
+                    pass
 
     def tick(self, world):
         pass

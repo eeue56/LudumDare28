@@ -46,7 +46,7 @@ class RecordingMind(Mind):
 
                 # fast, simple, and hacky.
                 # TODO: unhackify
-                for key, value in player.__dict__.iteritems():
+                for key, value in player.__dict__.items():
                     if key[0] == '_':
                         continue
                     f.write('{key},{value}\n'.format(key=key, value=value))

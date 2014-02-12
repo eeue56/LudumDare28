@@ -8,6 +8,11 @@ from nigeludum.world_objects import Wall, known_objects
 
 import logging
 
+try:
+    xrange(1)
+except NameError:
+    xrange = range
+
 def _color_dict_to_tuple(color):
     return color.values()
 
@@ -17,7 +22,7 @@ def _has_trousers(object_data):
     return True
 
 def _generate_fixed(level, fixed_records):
-    for object_class, object_data in fixed_records.iteritems():
+    for object_class, object_data in fixed_records.items():
 
         if object_class not in known_objects:
             logging.warning('no such class as {c}'.format(c=object_class))
@@ -32,7 +37,7 @@ def _generate_fixed(level, fixed_records):
 
 
 def _generate_random(level, random_records):
-    for object_class, object_data in random_records.iteritems():
+    for object_class, object_data in random_records.items():
         if object_class not in known_objects:
             logging.warning('no such class as {c}'.format(c=object_class))
             continue
@@ -62,7 +67,7 @@ def _generate_walls(world_width, world_height, wall_records):
 
     Waller = lambda *a, **kw: Wall(world_width, world_height, *a, **kw)
 
-    for wall, wall_data in wall_records.iteritems():
+    for wall, wall_data in wall_records.items():
 
         direction = DIRECTIONS[wall]
 
@@ -86,7 +91,7 @@ def generate_objects(file_data):
 
     logging.debug("Loading {x} levels from level_data.json!".format(x=len(data)))
 
-    for level_id, level_data in data.iteritems():
+    for level_id, level_data in data.items():
         world_width = level_data['width']
         world_height = level_data['height']
         color = _color_dict_to_tuple(level_data['color'])

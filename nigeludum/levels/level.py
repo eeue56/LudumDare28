@@ -1,5 +1,10 @@
 from nigeludum.world_exceptions import *
 
+try:
+    xrange(2)
+except NameError:
+    xrange = range
+
 
 class Level(object):
 

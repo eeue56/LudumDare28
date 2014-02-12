@@ -3,6 +3,11 @@ from __future__ import division
 from nigeludum.world_objects import WorldObject
 from nigeludum.misc import * 
 
+try:
+    xrange(1)
+except NameError:
+    xrange = range
+
 class Wall(WorldObject):
     def __init__(self, 
         x, 

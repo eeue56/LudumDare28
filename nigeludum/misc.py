@@ -6,6 +6,12 @@ from random import randint
 
 from collections import OrderedDict
 
+try:
+    xrange(0)
+except NameError:
+    xrange = range
+
+
 COLOURS = { 
     'black' : (0, 0, 0),
     'other-grey' : (0.25, 0.25, 0.25),
@@ -88,7 +94,7 @@ def into_sections(blocklist):
         width = 1
         start_x = None
 
-        for x, color in into_dict[y].iteritems():
+        for x, color in into_dict[y].items():
             if last_color is None:
                 last_color = color
 

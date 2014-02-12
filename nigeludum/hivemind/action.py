@@ -51,6 +51,11 @@ class Action(object):
 
             return function(self_, *args, **kwargs)
 
+        try:
+            _ = func.func_dict
+        except AttributeError as e:
+            func.func_dict = {}
+
         func.func_dict['action'] = True
         func.func_dict['type'] = self.type
         return func

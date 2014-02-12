@@ -5,6 +5,11 @@ from nigeludum.misc import *
 from nigeludum.world_exceptions import *
 from nigeludum.hivemind import Action
 
+try:
+    xrange(1)
+except NameError:
+    xrange = range
+
 class Player(WorldObject):
     def __init__(self, 
         x, 
@@ -66,5 +71,4 @@ class Player(WorldObject):
     def take_damage(self, damage, other):
         WorldObject.take_damage(self, damage, other)
 
-           
-    
+        

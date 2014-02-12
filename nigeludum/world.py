@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import division, print_function
 
 from nigeludum.world_exceptions import *
 from nigeludum.misc import *
@@ -8,6 +8,10 @@ from nigeludum.hivemind import Action
 
 from random import choice
 
+try:
+    xrange(1)
+except NameError:
+    xrange = range
 
 class World(object):
 
@@ -213,7 +217,7 @@ class World(object):
         ## TODO: kill player
         if self.player.health <= 0:
             self.add_object(Word(20, 20, "you died", color=(1, 0, 0)))
-            print "Game over, you died!"
+            print("Game over, you died!")
             
 
     def mind_dump(self):
